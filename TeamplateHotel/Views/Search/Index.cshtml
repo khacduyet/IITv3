@@ -1,0 +1,107 @@
+﻿@using ProjectLibrary.Database
+@using TeamplateHotel.Controllers
+@using TeamplateHotel.Handler
+@using PagedList.Mvc
+@model  IEnumerable<Article>
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    var lang = Request.Cookies["LanguageID"].Value;
+    Menu menu = ViewBag.Menu ?? new Menu();
+    List<Menu> menuChild = CommentController.getMenuChild(lang, menu.ID);
+    IEnumerable<Tag> tags = ViewBag.tags;
+    IEnumerable<Article> arts = ViewBag.listArt;
+    IEnumerable<Comment> ACom = ViewBag.ACom;
+}
+
+@* NEW *@
+@Html.Partial("Banner/Banner")
+<div class="section-blog">
+    <div class="container">
+        <div class="row">
+            <div class="col-xxl-8 col-lg-8 col-md-12 col-sm-12 blog-left" id="lstArt">
+                @if (Model.Count() > 0)
+                {
+                    foreach (var item in Model.OrderByDescending(x => x.ID))
+                    {
+                        <div class="blog-main">
+                            <div class="blog-main__image">
+                                <img src="@item.Image" alt="">
+                            </div>
+                            <div class="blog-main__content">
+                                <div class="blog-main__content__category">
+                                    @foreach (var serv in menuChild)
+                                    {
+                                        if (serv.ID == item.MenuID)
+                                        {
+                                            <p>/ @serv.Title /</p>
+                                        }
+                                    }
+                                </div>
+                                <div class="wraper-title">
+                                    <h2 class="wraper__title-heading">
+                                        <a href="/@menu.Alias/@item.ID/@item.Alias">@item.Title</a>
+                                    </h2>
+                                    <div class="divider">
+                                        <hr class="horizontal-border-1">
+                                        <hr class="horizontal-border-2">
+                                        <hr class="horizontal-border-3">
+                                    </div>
+                                    <div class="blog-main__content__date">
+                                        <p>@item.DateCreated.Value.ToString("MMMM d, yyyy")</p>
+                                    </div>
+                                    <div class="wraper-title__text">
+                                        @Html.Raw(item.Description)
+                                    </div>
+                                </div>
+                                <div class="blog-meta">
+                                    <div class="blog-meta-author-comments">
+                                        <div class="blog-meta__comments">
+                                            <i class="ion-social-twitch-outline" aria-hidden="true"></i>
+                                            @{
+                                                var count = 0;
+                                                foreach (var ac in ACom)
+                                                {
+                                                    if (ac.BlogId == item.ID)
+                                                    {
+                                                        count++;
+                                                    }
+                                                }
+                                            }
+                                            <span> @count @GetLanguage.Language(lang, "Comments")</span>
+                                        </div>
+                                    </div>
+                                    <div class="blog-meta__readmore-text">
+                                        <a href="/@menu.Alias/@item.ID/@item.Alias">/ @GetLanguage.Language(lang, "ReadMore") /</a>
+                                    </div>
+                                    <div class="blog-meta__socical">
+                                        <span>@GetLanguage.Language(lang, "Share"):</span>
+                                        <ul>
+                                            <li>
+                                                <i class="ion-social-twitter" aria-hidden="true"></i>
+                                                <a href=""></a>
+                                            </li>
+                                            <li>
+                                                <i class="ion-social-facebook" aria-hidden="true"></i>
+                                                <a href=""></a>
+                                            </li>
+                                            <li>
+                                                <i class="ion-social-googleplus" aria-hidden="true"></i>
+                                                <a href=""></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                }
+                else
+                {
+                    <h2>@GetLanguage.Language(lang, "NotResult")</h2>
+                }
+            </div>
+            @Html.Partial("PartialView/RightSideBar", arts)
+        </div>
+    </div>
+</div>

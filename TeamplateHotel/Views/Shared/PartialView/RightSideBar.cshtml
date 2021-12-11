@@ -1,0 +1,130 @@
+﻿@using ProjectLibrary.Database
+@using TeamplateHotel.Controllers
+@using TeamplateHotel.Handler
+@using ProjectLibrary.Config
+@model IEnumerable<Article>
+@{
+    Menu menu = ViewBag.Menu ?? new Menu();
+    var lang = Request.Cookies["LanguageID"].Value;
+    List<Menu> menuChild = CommentController.getMenuChild(lang, menu.ID);
+    List<Tag> tagsAnother = ViewBag.tagsAnother;
+    IEnumerable<Comment> modelCom = ViewBag.ACom;
+}
+<div class="col-xxl-4 col-lg-4 col-md-12 col-sm-12">
+    <div class="blog-sidebar-right">
+        <div class="sidebar-box">
+            <p class="text-sub">
+                @GetLanguage.Language(lang, "SEARCH")
+            </p>
+            <form action="/tim-kiem" class="search-form" role="search" method="post">
+                <input type="hidden" name="menuId" value="@menu.ID" />
+                <div class="form-group">
+                    <input type="text" class="form-control" name="keySearch" placeholder="@GetLanguage.Language(lang, "EnterKey")">
+                </div>
+                <button class="btn btn-search" type="submit">
+                    <i class="icon ion-search">
+
+                    </i>
+                </button>
+            </form>
+            <p class="text-sub">
+                @GetLanguage.Language(lang, "CATEGORIES")
+            </p>
+            <ul class="sidebar-categories">
+                @foreach (var item in menuChild)
+                {
+                    <li>
+                        <a role="button" data-id="@item.ID">@item.Title</a>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="sidebar-box">
+            <p class="text-sub">
+                @GetLanguage.Language(lang, "Newsletter")
+            </p>
+            <p class="text-sub-3">
+                @GetLanguage.Language(lang, "SubscibeToEmail")
+            </p>
+            <form class="newletter-form" id="frmLetter" method="post" action="/Contact/submitLetter">
+                <div class="input-group">
+                    <input type="email" class="form-control" name="Email" placeholder="@GetLanguage.Language(lang, "EnterEmailNews")">
+                    <span class="input-group-btn">
+                        <button class="btn" type="submit">
+                            <i class="far fa-paper-plane"></i>
+                        </button>
+                    </span>
+                </div>
+            </form>
+            <p class="text-sub">
+                @GetLanguage.Language(lang, "FollowUs")
+            </p>
+            <ul class="socical">
+                <li>
+                    <i class="ion-social-twitter"></i>
+                    <a href=""></a>
+                </li>
+                <li>
+                    <i class="ion-social-facebook"></i>
+                    <a href=""></a>
+                </li>
+                <li>
+                    <i class="ion-social-googleplus"></i>
+                    <a href=""></a>
+                </li>
+            </ul>
+        </div>
+        @if (Model != null)
+        {
+            <div class="sidebar-box">
+                <p class="text-sub">
+                    @GetLanguage.Language(lang, "RECENTPOSTS")
+                </p>
+                <ul class="recent-post-list">
+                    @foreach (var item in Model.OrderByDescending(x => Guid.NewGuid()).Take(3))
+                    {
+                        var count = 0;
+                        <li>
+                            <a href="/@menu.Alias/@item.ID/@item.Alias">
+                                <h3 class="recent-post-title">@item.Title</h3>
+                                <p class="recent-post-desc">
+                                    @Html.Raw(item.Description)
+                                </p>
+                                <div class="blog-meta-author-comments">
+                                    <div class="blog-meta__comments">
+                                        <i class="ion-social-twitch-outline" aria-hidden="true"></i>
+                                        @if (modelCom.Count() > 0)
+                                        {
+                                            foreach (var c in modelCom)
+                                            {
+                                                if (item.ID == c.BlogId)
+                                                {
+                                                    count++;
+                                                }
+                                            }
+                                        }
+                                    <span> @count @GetLanguage.Language(lang, "Comments")</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+        <div class="sidebar-box">
+            <p class="text-sub text-tag">
+                @GetLanguage.Language(lang, "TAGS")
+            </p>
+            <ul class="tag-list">
+                @foreach (var item in tagsAnother.OrderByDescending(x => Guid.NewGuid()))
+                {
+                    <li>
+                        <a role="button" data-id="@item.Id" data-menu="@menu.ID">@item.TagName</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+

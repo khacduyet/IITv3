@@ -1,0 +1,32 @@
+﻿@using ProjectLibrary.Database
+@using TeamplateHotel.Controllers
+@{
+    Menu menuHome = ViewBag.MenuHome ?? new Menu();
+    Menu menu = ViewBag.Menu ?? new Menu();
+    List<Slider> sliders = CommentController.GetListSlider(Request.Cookies["LanguageID"].Value, menu.ID);
+    Slider rd = sliders.OrderByDescending(x => Guid.NewGuid()).FirstOrDefault();
+}
+
+<div class="section-about-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-xxl-12">
+                <div class="about-page-header">
+                    <h2>@menu.Title</h2>
+                    @if (menu.Title != "")
+                    {
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item home-breadcrumb"><a href="/">@menuHome.Title</a></li>
+                                <li class="breadcrumb-item" aria-current="page"><a href="javascript:void(0)" role="button">@menu.Title</a></li>
+                            </ol>
+                        </nav>
+                        <p class="about-page-desc">@menu.MetaDescription</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="background-about-header" style="background-image: url(@rd.Image)">
+    </div>
+</div>

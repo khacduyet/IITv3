@@ -1,0 +1,134 @@
+﻿@using ProjectLibrary.Database
+@using TeamplateHotel.Controllers
+@using TeamplateHotel.Handler
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    Menu menuHome = ViewBag.MenuHome ?? new Menu();
+    Hotel hotel = CommentController.DetailHotel(Request.Cookies["LanguageID"].Value);
+    var lang = Request.Cookies["LanguageID"].Value;
+    Menu menu = ViewBag.Menu ?? new Menu();
+}
+@Html.Partial("Banner/Banner")
+<div class="section-contact-heading contact-home">
+    <div class="container">
+        <div class="row">
+            <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <h2 class="contact-heading">
+                    @GetLanguage.Language(lang, "IfYouQuestion")
+                </h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xxl-7 col-lg-7 col-md-6 col-sm-12 col-12">
+                <div class="contact-form contact-form-page">
+                    <div class="contact-form__title">
+                        <h3>@GetLanguage.Language(lang, "GetInTouch")</h3>
+                    </div>
+                    <form method="post" id="contactform" action="/Contact/SubmitContact">
+                        <input type="text" name="Gender" value="Mr" hidden />
+                        <input type="text" name="Tel" value="" hidden />
+                        <input type="text" name="Country" value="vn" hidden />
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1"></label>
+                            <input type="email" class="form-control" name="Email" id="exampleFormControlInput1" placeholder="@GetLanguage.Language(lang, "EnterEmail")">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1"></label>
+                            <input type="text" class="form-control" name="FullName" id="exampleFormControlInput" placeholder="@GetLanguage.Language(lang, "EnterName")">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1"></label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" name="Request" cols="50" rows="6" placeholder="@GetLanguage.Language(lang, "EnterMessage")"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <small style="color: red;">@GetLanguage.Language(lang, "AllFields")</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary info__button">
+                            <a role="button" class="info__link">@GetLanguage.Language(lang, "SENDMESSAGE")</a>
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+            <div class="col-xxl-5 col-lg-5 col-md-6 col-sm-12 col-12">
+                <div class="information-group information-group-page">
+                    <div class="information__title">
+                        <h3>@GetLanguage.Language(lang, "INFORMATION")</h3>
+                    </div>
+                    <div class="contact__menu-list">
+                        <ul>
+                            <li>
+                                <p class="information-group-sub-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit eveniet repellat possimus.</p>
+                            </li>
+                            <li>
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div class="contact__menu-content">
+                                    <p class="contact__content-title">@GetLanguage.Language(lang, "Address")</p>
+                                    <p class="contact__content-description">
+                                        @hotel.Address
+                                    </p>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-phone-alt"></i>
+                                <div class="contact__menu-content">
+                                    <p class="contact__content-title">@GetLanguage.Language(lang, "Phone")</p>
+                                    <p class="contact__content-description">
+                                        @hotel.Tel
+                                    </p>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-envelope"></i>
+                                <div class="contact__menu-content">
+                                    <p class="contact__content-title">@GetLanguage.Language(lang, "Email")</p>
+                                    <p class="contact__content-description">
+                                        @hotel.Email
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fuild map-contact-page">
+        <div class="row">
+            <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div id="map-container-google-2" class="z-depth-1-half map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d50106.08450315321!2d105.84731526648306!3d21.026402656456472!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ac7c33fd6323%3A0x930d205cf25ff492!2zVHLGsOG7nW5nIMSQ4bqhaSBI4buNYyBZIEjDoCBO4buZaQ!5e0!3m2!1svi!2s!4v1637307676431!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        $("#contactform").validate({
+            rules: {
+                'FullName': {
+                    required: true,
+                },
+                'Email': {
+                    required: true,
+                    email: true
+                },
+                'Request': {
+                    required: true,
+                }
+            },
+            messages: {
+                'FullName': "Please enter First Name",
+                'Email': "Please enter Email",
+                'Request': "Please enter request",
+            },
+            submitHandler: function (form) {
+                form.submit();
+                window[preloader]();
+            }
+        });
+    </script>
+}

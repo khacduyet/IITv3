@@ -1,0 +1,96 @@
+﻿@using ProjectLibrary.Database
+@using TeamplateHotel.Handler
+@model TeamplateHotel.Models.DetailService
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    Menu menu = ViewBag.Menu ?? new Menu();
+}
+<!--================ Slider Revolution ================-->
+<div class="milenia-rev-slider-wrapper">
+    <div class="rev_slider_wrapper fullscreenbanner-container">
+        <div id="rev-slider-4" data-version="5.4.5" class="milenia-d-none rev-slider fullscreenabanner">
+            <ul>
+                @foreach (var item in Model.ServiceGalleries)
+                {
+                    <li data-transition="fade" data-speed="300" data-delay="9000">
+                        <img src="@item.ImageLarge" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg">
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <!--================ End of Slider Revolution ================-->
+    <!--================ Breadcrumb ================-->
+    <div class="milenia-section milenia-section--breadcrumb milenia-colorizer--scheme-dark milenia-colorizer--bg-color-opacity-80 milenia-entity-single milenia-entity--room">
+        <div class="container">
+            <div class="milenia-page-header">
+                <div class="row align-items-center milenia-columns-aligner--edges-lg">
+                    <div class="col-lg-9">
+                        <h1 class="milenia-page-title">@Model.Service.Title</h1>
+                    </div>
+                </div>
+            </div>
+            <nav class="milenia-breadcrumb-path"><span> <a href="/">Home</a></span>/<span> <a href="@menu.Alias">@menu.Title</a></span>/<span>@Model.Service.Title</span></nav>
+            <div data-rev-api="roomRevApi" class="milenia-rev-arrows-outside milenia-action-buttons">
+                <button type="button" class="milenia-rev-arrows-prev"><i class="icon icon-chevron-left"></i></button>
+                <button type="button" class="milenia-rev-arrows-next"><i class="icon icon-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+    <!--================ End of Breadcrumb ================-->
+</div>
+<div class="milenia-content milenia-content--no-pb ">
+    <div class="container">
+        <!--================ Content Section ================-->
+        <section class="milenia-section milenia-section--py-medium">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h4>@Model.Service.Title</h4>
+                </div>
+                <div class="col-lg-6">
+                    @Html.Raw(Model.Service.Content)
+                </div>
+
+            </div>
+        </section>
+        <!--================ End of Content Section ================-->
+        <!--================ Content Section ================-->
+        <section class="milenia-section milenia-colorizer--scheme-lightest milenia-section--stretched milenia-section--py-medium">
+            <h3>Other Service</h3>
+            <!--================ Entities (Style 14) ================-->
+            <div class="milenia-entities milenia-entities--style-14">
+                <div class="milenia-grid milenia-grid--cols-3">
+                    @foreach (var item in Model.Services)
+                    {
+                        <div class="milenia-grid-item">
+                            <!--================ Entity ================-->
+                            <article class="milenia-entity milenia-entity--with-thumb">
+                                <div class="milenia-entity-media">
+                                    <a href="/@item.MenuAlias/@item.ID/@item.Alias" aria-labelledby="rooms-6-heading-0" class="milenia-entity-link milenia-ln--independent">
+                                        <img src="@item.Image" alt="">
+                                    </a>
+                                </div>
+                                <div class="milenia-entity-content milenia-aligner">
+                                    <div class="milenia-aligner-outer">
+                                        <div class="milenia-aligner-inner">
+                                            <header class="milenia-entity-header">
+                                                <h2 id="rooms-6-heading-0" class="milenia-entity-title">
+                                                    <a href="/@item.MenuAlias/@item.ID/@item.Alias" class="milenia-color--unchangeable">@item.Title</a>
+                                                </h2>
+                                            </header>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                            <!--================ End of Entity ================-->
+                        </div>
+                    }
+                </div>
+            </div>
+            <!--================ End of Entities (Style 14) ================-->
+        </section>
+        <!--================ End of Content Section ================-->
+
+    </div>
+</div>
+

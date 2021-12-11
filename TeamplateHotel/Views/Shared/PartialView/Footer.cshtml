@@ -1,0 +1,81 @@
+﻿@using TeamplateHotel.Handler
+@{ 
+    var lang = Request.Cookies["LanguageID"].Value;
+}
+
+<footer class="section-footer">
+    <div class="container">
+        <div class="row footer-top-row">
+            <div class="col-xxl-3 col-lg-3 col-md-4 col-sm-12 col-12 col-ft-1">
+                <div class="footer-col-1">
+                    <ul>
+                        <li>
+                            <a href="">ABOUT</a>
+                        </li>
+                        <li>
+                            <a href="">SUPPORT</a>
+                        </li>
+                        <li>
+                            <a href="">PRIVACY POLICY</a>
+                        </li>
+                        <li>
+                            <a href="">TERMS & CONDITIONS</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xxl-6 col-lg-6 col-md-4 col-sm-12 col-12 col-ft-2">
+                <div class="footer-logo">
+                    <div class="navbar-logo-ft">
+                        <h3 class="navbar__brand-logo">Sunset Hotel</h3>
+                        <p class="navbar__brand-sublogo">Grand</p>
+                        <ul>
+                            <li>
+                                <a href="">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <i class="fab fa-google-plus-g"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xxl-3 col-lg-3 col-md-4 col-sm-12 col-12 col-ft-3">
+                <div class="newletter-footer">
+                    <h3>@GetLanguage.Language(lang, "Newsletter")</h3>
+                    <p>@GetLanguage.Language(lang, "SubscibeToEmail")</p>
+                    <form  id="frmLetter" method="post" action="/Contact/submitLetter">
+                        <div class="input-group">
+                            <input type="email" class="form-control" name="Email"  placeholder="@GetLanguage.Language(lang, "EnterEmailNews")">
+                            <span class="input-group-btn">
+                                <button class="btn" type="submit">
+                                    <i class="far fa-paper-plane"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12 col-12 footer-bottom">
+                <p class="footer-copyright">
+                    © 2017 Sunset Grand Hotel. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<div id="loader-wrapper">
+    <div id="loader"></div>
+</div>

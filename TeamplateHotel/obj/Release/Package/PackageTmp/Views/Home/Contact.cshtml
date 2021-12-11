@@ -1,0 +1,108 @@
+﻿@using ProjectLibrary.Database
+@using TeamplateHotel.Controllers
+@using TeamplateHotel.Handler
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    Hotel hotel = CommentController.DetailHotel(Request.Cookies["LanguageID"].Value);
+    Menu menu = ViewBag.Menu ?? new Menu();
+}
+<div class="milenia-breadcrumb text-center milenia-colorizer--scheme-light main-header-detail ">
+    <div class="container">
+        <h1 class="milenia-page-title">@menu.Title</h1>
+        <nav class="milenia-breadcrumb-path">
+            <span><a href="/">Home</a></span>/<span>@menu.Title</span>
+        </nav>
+    </div>
+</div>
+<div class="milenia-content milenia-content--no-pt " style="margin-top: 3.9em">
+    <div class="container">
+        <!--================ Section ================-->
+        <div class="milenia-section">
+            <div class="row">
+                <main class="col-lg-4">
+                    <h3>Contact Details</h3>
+                    <!--================ Google Map ================-->
+                  
+                        <div id="map" style="width:430px;height:340px;margin-bottom:20px;">
+                        </div>
+                   
+                    <!--================ End of Google Map ================-->
+                    <ul class="milenia-details-list milenia-list--unstyled">
+                        <li><span class="milenia-tc--dark">Address:&nbsp;</span>@hotel.Address</li>
+                        <li><span class="milenia-tc--dark">Phone:&nbsp;</span>@hotel.Tel</li>
+                        <li><span class="milenia-tc--dark">Fax:&nbsp;</span>@hotel.Fax</li>
+                        <li><span class="milenia-tc--dark">Email:&nbsp;</span><a href="mailto:@hotel.Email">@hotel.Email</a></li>
+                        <li>
+                            <span class="milenia-tc--dark">Stay Connected:</span>
+                            <ul class="milenia-social-icons">
+                                <li><a href="@hotel.Facebook"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="@hotel.Twitter"><i class="fab fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
+                                <li><a href="@hotel.Tripadvisor"><i class="fab fa-tripadvisor"></i></a></li>
+                                <li><a href="@hotel.Instagram"><i class="fab fa-instagram"></i></a></li>
+                                <li><a href="@hotel.Youtube"><i class="fab fa-youtube"></i></a></li>
+                                <li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </main>
+                <aside class="col log-8">
+                    <h3>We'd Love To Hear From You!</h3>
+                    <p>Feel free to send us any questions you may have. We are happy to answer them.</p>
+                    <form method="post" id="contactform" action="/Contact/SubmitContact" class="milenia-contact-form milenia-form--fields-white">
+                        <input id="Country" type="hidden" value="viet nam" name="Country">
+                        <div class="form-group">
+                            <div class="form-col">
+                                <label for="cf_name">Your Name</label>
+                                <input type="text" id="cf_name" name="FullName" required class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-col">
+                                <label for="cf_email">Your Email</label>
+                                <input type="email" id="cf_email" name="Email" required class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-col">
+                                <label for="cf_phone">Phone (optional)</label>
+                                <input type="text" id="cf_phone" name="Tel" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-col">
+                                <label for="cf_message">Message (optional)</label>
+                                <textarea id="cf_message" name="Request" required rows="7" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-col">
+                                <button type="submit" class="milenia-btn">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </aside>
+            </div>
+        </div>
+        <!--================ End of Section ================-->
+
+    </div>
+</div>
+<script>
+    function initMap() {
+        var myLatLng = { @hotel.Location };
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: myLatLng
+        });
+
+        var marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map,
+            title: '@hotel.Name'
+        });
+    }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBkKxeP9U3h8QzyGoPPUuL7prK8pbC8ovg&callback=initMap">
+</script>

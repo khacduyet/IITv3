@@ -1,0 +1,152 @@
+﻿@using ProjectLibrary.Database
+@using TeamplateHotel.Handler
+@using PagedList.Mvc
+@model  PagedList.IPagedList<Gallery>
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    Menu menuHome = ViewBag.MenuHome ?? new Menu();
+    var lang = Request.Cookies["LanguageID"].Value;
+    Menu menu = ViewBag.Menu ?? new Menu();
+}
+<style>
+    .pagination li:before {
+        content: "" !important;
+    }
+</style>
+
+
+@*  NEW GALLERY *@
+@Html.Partial("Banner/Banner")
+
+<div class="section-gallery">
+    <div class="container">
+        <div class="row">
+            <div class="col-xxl-12">
+
+                <div class="wraper-title">
+                    <h2 class="wraper__title-heading gallery-heading">
+                        @GetLanguage.Language(lang, "TitleGallery")
+                    </h2>
+                    <div class="divider">
+                        <hr class="horizontal-border-1">
+                        <hr class="horizontal-border-2">
+                        <hr class="horizontal-border-3">
+                    </div>
+                    <p class="wraper-title__text">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti sit dicta quae natus quasi ratione quis id, tenetur atque blanditiis aperiam mollitia enim corporis ex praesentium reprehenderit.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Tab links -->
+    <div class="container">
+        <div class="row">
+            <div class="col-xxl-12">
+                <div class="tabs">
+                    <button class="tablinks active" data-electronic="allproducts">@GetLanguage.Language(lang, "ALL")</button>
+                    <button class="tablinks" data-electronic="Microcontrollers">@GetLanguage.Language(lang, "SingleRoom")</button>
+                    <button class="tablinks" data-electronic="module">@GetLanguage.Language(lang, "DoubleRoom")</button>
+                    <button class="tablinks" data-electronic="module-2">@GetLanguage.Language(lang, "DeluxeRoom")</button>
+                    <button class="tablinks" data-electronic="module-3">@GetLanguage.Language(lang, "Lobby")</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab content -->
+    <!-- 1 -->
+    <div class="wrapper_tabcontent">
+        <div id="allproducts" class="tabcontent active">
+            <div class="container-fuild">
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-xxl-3 col-lg-3 col-md-3 col-sm-6 col-6">
+                            <div class="gallery-image">
+                                <a href="@item.LargeImage" data-fancybox="gallery" >
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                    <img src="@item.LargeImage" alt="">
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <!-- 2 -->
+        <div id="Microcontrollers" class="tabcontent">
+            <div class="container-fuild">
+                <div class="row">
+                    @foreach (var item in Model.OrderByDescending(x=> Guid.NewGuid()).Take(10))
+                    {
+                        <div class="col-xxl-3 col-lg-3 col-md-3 col-sm-6 col-6">
+                            <div class="gallery-image">
+                                <a href="@item.LargeImage" data-fancybox="gallery">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                    <img src="@item.LargeImage" alt="">
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <!-- 3 -->
+        <div id="module" class="tabcontent">
+            <div class="container-fuild">
+                <div class="row">
+                    @foreach (var item in Model.OrderByDescending(x => Guid.NewGuid()).Take(10))
+                    {
+                        <div class="col-xxl-3 col-lg-3 col-md-3 col-sm-6 col-6">
+                            <div class="gallery-image">
+                                <a href="@item.LargeImage" data-fancybox="gallery">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                    <img src="@item.LargeImage" alt="">
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <!-- 4 -->
+        <div id="module-2" class="tabcontent">
+            <div class="container-fuild">
+                <div class="row">
+                    @foreach (var item in Model.OrderByDescending(x => Guid.NewGuid()).Take(10))
+                    {
+                        <div class="col-xxl-3 col-lg-3 col-md-3 col-sm-6 col-6">
+                            <div class="gallery-image">
+                                <a href="@item.LargeImage" data-fancybox="gallery">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                    <img src="@item.LargeImage" alt="">
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <!-- 5 -->
+        <div id="module-3" class="tabcontent">
+            <div class="container-fuild">
+                <div class="row">
+                    @foreach (var item in Model.OrderByDescending(x => Guid.NewGuid()).Take(10))
+                    {
+                        <div class="col-xxl-3 col-lg-3 col-md-3 col-sm-6 col-6">
+                            <div class="gallery-image">
+                                <a href="@item.LargeImage" data-fancybox="gallery">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                    <img src="@item.LargeImage" alt="">
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@* END NEW GALLERY *@
+

@@ -1,0 +1,227 @@
+﻿@using ProjectLibrary.Database
+@using TeamplateHotel.Controllers
+@using TeamplateHotel.Handler
+@using ProjectLibrary.Config
+@using TeamplateHotel.Models
+@{
+    var lang = Request.Cookies["LanguageID"].Value;
+    Hotel detailHotel = CommentController.DetailHotel(Request.Cookies["LanguageID"].Value);
+    List<Language> languages = CommentController.GetLanguages();
+    Menu menuArticle = ViewBag.menuArticle ?? new Menu();
+    Plugin plugin = CommentController.GetPluigPlugin();
+    List<Menu> menus = CommentController.GetMainMenus(Request.Cookies["LanguageID"].Value);
+    var language = languages.FirstOrDefault(a => a.ID == Request.Cookies["LanguageID"].Value) ?? new Language();
+    string alias = "";
+}
+
+
+<!-- Topbar Section ================================================== -->
+<div class="topbar">
+    <div class="container topbar__content">
+        <!-- <div class="topbar__content"> -->
+        <div class="col-xxl-6 col-lg-6 col-md-6 col-sm-6 col-6 topbar-left">
+            <!-- .topbar__column-left -->
+            <div class="topbar__column-left">
+                <!-- .topbar__text-content -->
+                <div class="topbar__text-content">
+                    <p>
+                        <i class="fas fa-map-marker-alt"></i>
+                        @detailHotel.Address
+                    </p>
+                </div>
+                <!-- .topbar-text-content -->
+                <div class="topbar-text-content">
+                    <p>
+                        <i class="fas fa-phone-alt"></i>
+                        @detailHotel.Tel
+                    </p>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-xxl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+            <!-- .topbar__column-right -->
+            <div class="topbar__column-right">
+                <!-- .topbar__text-content -->
+                <div class="topbar__text-content">
+                    <!-- .social__icons -->
+                    <ul class="social__icons">
+                        <li class="social__icons-item">
+                            <a href="@detailHotel.Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </li>
+                        <li class="social__icons-item">
+                            <a href="@detailHotel.Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                        </li>
+                        <li class="social__icons-item">
+                            <a href="#">
+                                <i class="fab fa-google-plus-g"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">@language.ID</button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            @foreach (var item in languages)
+                            {
+                                <li><a href="/SelectLanguge/@item.ID" class="dropdown-item">@item.Name</a></li>
+                            }
+                        </ul>
+                        <form action="/tim-kiem" class="search-form" role="search" method="post">
+                            <input type="hidden" name="menuId" value="@menuArticle.ID" />
+                            <div class="form-group">
+                                <input type="text" name="keySearch" placeholder="@GetLanguage.Language(lang, "EnterKey")">
+                            </div>
+                            <button type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- </div> -->
+        <!-- .section_info__body -->
+    </div>
+</div>
+<!-- Navbar Section ================================================== -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <div class="navbar-logo-mobile">
+            <a href="index.html" class="navbar-brand">
+                <h3 class="navbar__brand-logo">Sunset Hotel</h3>
+                <p class="navbar__brand-sublogo">Grand</p>
+            </a>
+        </div>
+        <a class="navbar-brand title-text" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                @{
+                    var mnu = menus.Where(a => a.ParentID == 0).OrderBy(a => a.Index).ToList();
+                }
+                @for (int i = 0; i < mnu.Count() / 2; i++)
+                {
+                    var menuChilds = menus.Where(a => a.ParentID == mnu[i].ID).OrderBy(a => a.Index).ToList();
+                    if (menuChilds.Count > 0)
+                    {
+                        alias = "javascript:void(0)";
+
+                        <li class="nav-item dropdown">
+                            <a href="@alias" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">@mnu[i].Title</a>
+                            <!--================ Sub Menu ================-->
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @foreach (var itemChild in menuChilds)
+                                {
+                                    if (mnu[i].Type == SystemMenuType.OutSite)
+                                    {
+                                        <li>
+                                            <a href="@itemChild.Link" class="dropdown-item">@itemChild.Title</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a href="/@itemChild.Alias" class="dropdown-item">@itemChild.Title</a>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                            <!--================ End of Sub Menu ================-->
+                        </li>
+                    }
+                    else if (mnu[i].Type == SystemMenuType.Home)
+                    {
+                        <li class="nav-item">
+                            <a href="/" class="milenia-ln--independent">@mnu[i].Title</a>
+                        </li>
+                    }
+                    else
+                    {
+                        if (mnu[i].Type == SystemMenuType.OutSite)
+                        {
+                            <li class="nav-item">
+                                <a href="@mnu[i].Link" class="milenia-ln--independent">@mnu[i].Title</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a href="/@mnu[i].Alias" class="milenia-ln--independent">@mnu[i].Title</a>
+                            </li>
+                        }
+                    }
+                }
+            </ul>
+            @* MENU *@
+
+            <div class="navbar-logo">
+                <a href="/" class="navbar-brand">
+                    <h3 class="navbar__brand-logo">Sunset Hotel</h3>
+                    <p class="navbar__brand-sublogo">Grand</p>
+                </a>
+            </div>
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                @for (int i = mnu.Count() / 2; i < mnu.Count(); i++)
+                {
+                    var menuChilds = menus.Where(a => a.ParentID == mnu[i].ID).OrderBy(a => a.Index).ToList();
+                    if (menuChilds.Count > 0)
+                    {
+                        alias = "javascript:void(0)";
+
+                        <li class="nav-item dropdown">
+                            <a href="@alias" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">@mnu[i].Title</a>
+                            <!--================ Sub Menu ================-->
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @foreach (var itemChild in menuChilds)
+                                {
+                                    if (mnu[i].Type == SystemMenuType.OutSite)
+                                    {
+                                        <li>
+                                            <a href="@itemChild.Link" class="dropdown-item">@itemChild.Title</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a href="/@itemChild.Alias" class="dropdown-item">@itemChild.Title</a>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                            <!--================ End of Sub Menu ================-->
+                        </li>
+                    }
+                    else if (mnu[i].Type == SystemMenuType.Home)
+                    {
+                        <li class="nav-item">
+                            <a href="/" class="milenia-ln--independent">@mnu[i].Title</a>
+                        </li>
+                    }
+                    else
+                    {
+                        if (mnu[i].Type == SystemMenuType.OutSite)
+                        {
+                            <li class="nav-item">
+                                <a href="@mnu[i].Link" class="milenia-ln--independent">@mnu[i].Title</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a href="/@mnu[i].Alias" class="milenia-ln--independent">@mnu[i].Title</a>
+                            </li>
+                        }
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</nav>

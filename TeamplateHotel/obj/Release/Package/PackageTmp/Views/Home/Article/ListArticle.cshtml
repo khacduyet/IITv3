@@ -1,0 +1,95 @@
+﻿@using ProjectLibrary.Database
+@using TeamplateHotel.Handler
+@using PagedList.Mvc
+@model  PagedList.IPagedList<Article>
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    Menu menu = ViewBag.Menu ?? new Menu();
+}
+
+
+<!--================ Breadcrumb ================-->
+<div data-bg-image-src="images/breadcrumb-bg-2.jpg" class="milenia-breadcrumb text-center milenia-colorizer--scheme-dark milenia-colorizer--parallax" style="padding-top: 2.65rem;">
+    <div class="milenia-colorizer-bg-image" style="background-image: url('../../Content/asset/breadcrumb-bg-2.jpg'); top: -142.797px; background-position: 50% 0px;"></div>
+    <div class="container">
+        <h1 class="milenia-page-title">@menu.Title</h1>
+        <nav class="milenia-breadcrumb-path">
+            <span><a href="/">Home</a></span>/<span>@menu.Title</span>
+        </nav>
+    </div>
+</div>
+<!--================ End of Breadcrumb ================-->
+<div class="milenia-content  ">
+    <div class="container">
+        <div class="row">
+            <main class="col">
+                <div class="milenia-entity-content">
+                    <!--================ Content Section ================-->
+                    <div class="milenia-section">
+                        <!--================ Entities (Style 7) ================-->
+                        <div class="milenia-entities milenia-entities--style-7">
+                            <div data-isotope-layout="grid" class="milenia-grid milenia-grid--isotope milenia-grid--cols-3">
+                                <div class="milenia-grid-sizer"></div>
+                                @foreach (Article item in Model)
+                                {
+                                    <div class="milenia-grid-item">
+                                        <!--================ Entity ================-->
+                                        <article class="milenia-entity--format-image milenia-entity">
+                                            <div class="milenia-entity-media">
+                                                <a href="/@item.MenuAlias/@item.ID/@item.Alias" class="milenia-ln--independent">
+                                                    <img src="@item.Image" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="milenia-entity-content milenia-aligner">
+                                                <div class="milenia-aligner-outer">
+                                                    <div class="milenia-aligner-inner">
+                                                        <header class="milenia-entity-header">
+                                                            @*<div class="milenia-entity-meta">
+                                                                    <div>
+                                                                        <time datetime="2018-11-28">November 28, 2018</time>
+                                                                    </div>
+                                                                    <div>by&nbsp;<a href="#" class="milenia-color--unchangeable">admin&nbsp;</a></div>
+                                                                    <div>
+                                                                        in
+                                                                        <div class="milenia-entity-categories">
+                                                                            <span><a href="#" class="milenia-color--unchangeable">Sights</a></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>*@
+                                                            <h2 class="milenia-entity-title"><a href="/@item.MenuAlias/@item.ID/@item.Alias" class="milenia-color--unchangeable">@item.Title</a></h2>
+                                                        </header>
+                                                        <div class="milenia-entity-body">
+                                                            @Html.Raw(item.Description)
+                                                        </div>
+                                                        <footer class="milenia-entity-footer"><a href="/@item.MenuAlias/@item.ID/@item.Alias" class="milenia-btn milenia-btn--link milenia-btn--scheme-primary">Read More</a></footer>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </article>
+                                        <!--================ End of Entity ================-->
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <!--================ End of Entities (Style 7) ================-->
+                        <!--================ Pagination ================-->
+                        <footer class="text-center">
+                            <nav>
+                                <ul class="milenia-list--unstyled milenia-pagination milenia-pagination--stretched">
+                                    @Html.PagedListPager(Model, page => "/" + menu.Alias + "?page=" + page)
+                                </ul>
+                            </nav>
+                        </footer>
+                        <!--================ End of Pagination ================-->
+                    </div>
+                    <!--================ End of Content Section ================-->
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+<style>
+    .pagination li:before{
+        content:"" !important;
+    }
+</style>

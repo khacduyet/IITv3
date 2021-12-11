@@ -1,0 +1,132 @@
+﻿@using ProjectLibrary.Database
+@using TeamplateHotel.Controllers
+@using TeamplateHotel.Handler
+@using ProjectLibrary.Config
+@model TeamplateHotel.Models.DetailArticle
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    Menu menu = ViewBag.Menu ?? new Menu();
+    Hotel detailHotel = CommentController.DetailHotel(Request.Cookies["LanguageID"].Value);
+}
+
+<!--================ End of Header ================-->
+<div data-bg-image-src="images/breadcrumb-bg-2.jpg" class="milenia-breadcrumb milenia-breadcrumb--small text-center milenia-colorizer--scheme-dark milenia-colorizer--parallax">
+    <div class="milenia-colorizer-bg-image" style="background-image: url('../../Content/asset/breadcrumb-bg-2.jpg'); top: -142.797px; background-position: 50% 0px;"></div>
+    <div class="container">
+        <nav class="milenia-breadcrumb-path milenia-colorizer-ln--dark">
+            <span><a href="/">Home</a></span>/<span>@Model.Article.Title</span>
+        </nav>
+    </div>
+</div>
+<!--================ End of Breadcrumb ================-->
+<div class="milenia-content  ">
+    <!--================ Main Content Column ================-->
+    <div class="milenia-single-entity-container">
+        <!--================ Content Section ================-->
+        <div class="milenia-section">
+            <!--================ Post ================-->
+            <main class="milenia-entity-single milenia-entity--post milenia-entity--format-image milenia-entity--style-2">
+                <!--================ Post Header ================-->
+                <header class="milenia-entity-header milenia-entity-header--single text-center">
+                    <h1 class="milenia-entity-title">Detail Article</h1>
+                </header>
+                <!--================ End of Post Header ================-->
+                <!--================ Post Media ================-->
+                <div class="milenia-entity-media"><img src="@Model.Article.Image" alt=""></div>
+                <!--================ End of Post Media ================-->
+                <!--================ Post Content ================-->
+                <div class="milenia-entity-content">
+                    @Html.Raw(Model.Article.Content)
+                </div>
+                <!--================ End of Post Content ================-->
+                <!--================ Post Footer ================-->
+                <footer class="milenia-entity-footer">
+                    <div class="row milenia-columns-aligner--edges-lg">
+                        <div class="col-lg-9">
+                            @*Tags:
+                                <div class="tagcloud"><a href="#">accommodations</a><a href="#">activities</a><a href="#">bar</a></div>*@
+                        </div>
+                        <div class="col-lg-3">
+                            <a href="#" data-arctic-modal="#share-modal" aria-haspopup="true" aria-controls="share-modal" aria-expanded="false" class="milenia-icon-link">Share This<i class="icon icon-share2"></i></a>
+                            <!--================ Share Modal ================-->
+                            <div class="milenia-d-none">
+                                <div id="share-modal" aria-hidden="true" class="milenia-modal milenia-modal--share">
+                                    <button type="button" class="milenia-icon-btn arcticmodal-close"><i class="icon icon-cross"></i></button>
+                                    <h3>Share On:</h3>
+                                    <div class="milenia-share-buttons">
+                                        <a href="@detailHotel.Facebook" class="milenia-btn milenia-btn--icon milenia-btn--scheme-facebook">
+                                            <div class="fab fa-facebook-f"></div>Facebook
+                                        </a><a href="@detailHotel.Twitter" class="milenia-btn milenia-btn--icon milenia-btn--scheme-twitter">
+                                            <div class="fab fa-twitter"></div>Twitter
+                                        </a><a href="" class="milenia-btn milenia-btn--icon milenia-btn--scheme-google-plus">
+                                            <div class="fab fa-google-plus-g"></div>Google +
+                                        </a><a href="" class="milenia-btn milenia-btn--icon milenia-btn--scheme-pinterest">
+                                            <div class="fab fa-pinterest-p"></div>Pinterest
+                                        </a><a href="mailto:@detailHotel.Email" class="milenia-btn milenia-btn--icon">
+                                            <div class="fas fa-envelope"></div>Email to a Friend
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--================ End of Share Modal ================-->
+                        </div>
+                    </div>
+                </footer>
+                <!--================ End of Post Footer ================-->
+            </main>
+            <!--================ End of Post ================-->
+        </div>
+        <!--================ End of Content Section ================-->
+        <!--================ Content Section ================-->
+        <section class="milenia-section">
+            <h3>Related Posts</h3>
+            <!--================ Entities (Style 7) ================-->
+            <div class="milenia-entities milenia-entities--style-7 milenia-entities--no-content">
+                <div class="milenia-grid milenia-grid--cols-3">
+                    <div class="milenia-grid-sizer"></div>
+                    @foreach (Article item in Model.Articles)
+                    {
+                        <div class="milenia-grid-item">
+                            <!--================ Entity ================-->
+                            <article class="milenia-entity--format-image milenia-entity text-center">
+                                <div class="milenia-entity-media">
+                                    <a href="/@item.MenuID/@item.ID/@item.Alias" class="milenia-ln--independent">
+                                        <img src="@item.Image" alt="">
+                                    </a>
+                                </div>
+                                <div class="milenia-entity-content milenia-aligner">
+                                    <div class="milenia-aligner-outer">
+                                        <div class="milenia-aligner-inner">
+                                            <header class="milenia-entity-header">
+                                                @*<div class="milenia-entity-meta">
+                                                        <div>
+                                                            <time datetime="2018-11-28">November 28, 2018</time>
+                                                        </div>
+                                                        <div>by&nbsp;<a href="#" class="milenia-color--unchangeable">admin&nbsp;</a></div>
+                                                        <div>
+                                                            in
+                                                            <div class="milenia-entity-categories">
+                                                                <span><a href="#" class="milenia-color--unchangeable">Press</a></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+                                                <h2 class="milenia-entity-title">
+                                                    <a href="/@item.MenuID/@item.ID/@item.Alias" class="milenia-color--unchangeable">@item.Title</a>
+                                                </h2>
+                                            </header>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                            <!--================ End of Entity ================-->
+                        </div>
+                    }
+                </div>
+            </div>
+            <!--================ End of Entities (Style 7) ================-->
+        </section>
+        <!--================ End of Content Section ================-->
+
+    </div>
+    <!--================ End of Main Content Column ================-->
+</div>

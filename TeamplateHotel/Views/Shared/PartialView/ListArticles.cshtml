@@ -1,0 +1,85 @@
+﻿@using ProjectLibrary.Database
+@using TeamplateHotel.Controllers
+@using TeamplateHotel.Handler
+@using PagedList.Mvc
+@model  PagedList.IPagedList<Article>
+@{
+    var lang = Request.Cookies["LanguageID"].Value;
+    Menu menu = ViewBag.Menu ?? new Menu();
+    List<Menu> menuChild = CommentController.getMenuChild(lang, menu.ID);
+    IEnumerable<Comment> ACom = ViewBag.ACom;
+}
+
+@foreach (var item in Model.OrderByDescending(x => x.ID))
+{
+    <div class="blog-main">
+        <div class="blog-main__image">
+            <img src="@item.Image" alt="">
+        </div>
+        <div class="blog-main__content">
+            <div class="blog-main__content__category">
+                @foreach (var serv in menuChild)
+                {
+                    if (serv.ID == item.MenuID)
+                    {
+                        <p>/ @serv.Title /</p>
+                    }
+                }
+            </div>
+            <div class="wraper-title">
+                <h2 class="wraper__title-heading">
+                    <a href="/@menu.Alias/@item.ID/@item.Alias">@item.Title</a>
+                </h2>
+                <div class="divider">
+                    <hr class="horizontal-border-1">
+                    <hr class="horizontal-border-2">
+                    <hr class="horizontal-border-3">
+                </div>
+                <div class="blog-main__content__date">
+                    <p>@item.DateCreated.Value.ToString("MMMM d, yyyy")</p>
+                </div>
+                <div class="wraper-title__text">
+                    @Html.Raw(item.Description)
+                </div>
+            </div>
+            <div class="blog-meta">
+                <div class="blog-meta-author-comments">
+                    <div class="blog-meta__comments">
+                        <i class="ion-social-twitch-outline" aria-hidden="true"></i>
+                        @{
+                            var count = 0;
+                            foreach (var ac in ACom)
+                            {
+                                if (ac.BlogId == item.ID)
+                                {
+                                    count++;
+                                }
+                            }
+                        }
+                        <span> @count @GetLanguage.Language(lang, "Comments")</span>
+                    </div>
+                </div>
+                <div class="blog-meta__readmore-text">
+                    <a href="/@menu.Alias/@item.ID/@item.Alias">/ @GetLanguage.Language(lang, "ReadMore") /</a>
+                </div>
+                <div class="blog-meta__socical">
+                    <span>@GetLanguage.Language(lang, "Share"):</span>
+                    <ul>
+                        <li>
+                            <i class="ion-social-twitter" aria-hidden="true"></i>
+                            <a href=""></a>
+                        </li>
+                        <li>
+                            <i class="ion-social-facebook" aria-hidden="true"></i>
+                            <a href=""></a>
+                        </li>
+                        <li>
+                            <i class="ion-social-googleplus" aria-hidden="true"></i>
+                            <a href=""></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+}

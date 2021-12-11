@@ -1,0 +1,300 @@
+﻿@using TeamplateHotel.Controllers
+@using TeamplateHotel.Handler
+@using TeamplateHotel.Models
+@using ProjectLibrary.Database
+@{
+    ViewBag.HomePage = true;
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    var lang = Request.Cookies["LanguageID"].Value;
+    ShowObject article = CommentController.WellcomeArticle(Request.Cookies["LanguageID"].Value) ?? new ShowObject();
+    List<ShowObject> articleShowHots = CommentController.HotArticles(Request.Cookies["LanguageID"].Value);
+    List<ShowObject> CustomerArticle = CommentController.CustomerArticles(Request.Cookies["LanguageID"].Value);
+    List<ShowObject> roomShowHomes = CommentController.RoomShowHome(Request.Cookies["LanguageID"].Value);
+    List<Advertising> qc = CommentController.GetAdvertisings();
+    Menu menuHome = ViewBag.MenuHome ?? new Menu();
+    Menu menu = ViewBag.Menu ?? new Menu();
+    Hotel hotel = CommentController.DetailHotel(Request.Cookies["LanguageID"].Value);
+    List<Slider> sliders = CommentController.GetListSlider(Request.Cookies["LanguageID"].Value, 0);
+    //List<Gallery> galleries = CommentController.Gallery();
+    List<RoomGallery> roomGalleries = CommentController.RoomGallery();
+
+    List<ShowObject> articleNews = CommentController.NewArticles(Request.Cookies["LanguageID"].Value);
+}
+@Html.Partial("Banner/Banner")
+
+<div class="section-aboutus-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="wraper-title">
+                    <h2 class="wraper__title-heading">
+                        @GetLanguage.Language(lang, "WELCOMETO") <strong>@hotel.Name</strong>
+                    </h2>
+                    <div class="divider">
+                        <hr class="horizontal-border-1">
+                        <hr class="horizontal-border-2">
+                        <hr class="horizontal-border-3">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row row-info-abouts-us">
+            <div class="col-xxl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                <div class="aboutus__img">
+                    <img src="~/Content/assets/images/about_img.jpg" alt="">
+                </div>
+            </div>
+            <div class="col-xxl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                <div class="info-abouts-us">
+                    <h3 class="info__title">Probably the best place to enjoy your life</h3>
+                    <p class="info__text-2">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence. When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees, and but a few stray gleams steal into the inner sanctuary.</p>
+                    <h4 class="info__title--2">
+                        The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary.
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- section-count-to -->
+<div class="section-count-to">
+    <div class="container">
+        <div class="row">
+            <div class="col-xxl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                <div class="count-to-1">
+                    <h3 class="timer" data-from="0" data-to="350" data-speed="5000" data-refresh-interval="50"></h3>
+                    <p>@GetLanguage.Language(lang, "GUESTSTAY")</p>
+                </div>
+            </div>
+            <div class="col-xxl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                <div class="count-to-1">
+                    <h3 class="timer" data-from="0" data-to="@roomShowHomes.Count()" data-speed="5000" data-refresh-interval="50"></h3>
+                    <p>@GetLanguage.Language(lang, "room")</p>
+                </div>
+            </div>
+            <div class="col-xxl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                <div class="count-to-1">
+                    <h3 class="timer" data-from="0" data-to="12" data-speed="5000" data-refresh-interval="50"></h3>
+                    <p>@GetLanguage.Language(lang, "Awards")</p>
+                </div>
+            </div>
+            <div class="col-xxl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                <div class="count-to-1">
+                    <h3 class="timer" data-from="0" data-to="150" data-speed="5000" data-refresh-interval="50"></h3>
+                    <p>@GetLanguage.Language(lang, "Meal served")</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- section-our-service -->
+<div class="section-our-service ">
+    <div class="container">
+        <div class="row">
+            <div class="col-xxl-5 col-lg-5 col-md-5 col-sm-12 col-12">
+                <div class="our-service-desc-title">
+                    <h2 class="wraper__title-heading">
+                        <strong>@GetLanguage.Language(lang, "OURSERVICES")</strong>
+                    </h2>
+                    <p>Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por scientie, musica, sport etc.</p>
+                    <!-- Button trigger modal -->
+                    <button type="button" id="exampleModal1" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        <img src="~/Content/assets/images/about_services.jpg" alt="">
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <iframe width="420" height="315"
+                                            src="https://www.youtube.com/embed/uyXnqJ51GCw">
+                                    </iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xxl-7 col-lg-7 col-md-7 col-sm-12 col-12 col-right-service">
+                <div class="row row-right-service-item">
+                    <div class="col-xxl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+                        <div class="our-service-features-abouts">
+                            <div class="service-features-icon">
+                                <i class="fas fa-motorcycle"></i>
+                            </div>
+                            <div class="features__abouts-title-desc">
+                                <h3>Parking</h3>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit dolor magnam quas cumque.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xxl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+                        <div class="our-service-features-abouts">
+                            <div class="service-features-icon">
+                                <i class="fas fa-motorcycle"></i>
+                            </div>
+                            <div class="features__abouts-title-desc">
+                                <h3>Parking</h3>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit dolor magnam quas cumque.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xxl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+                        <div class="our-service-features-abouts">
+                            <div class="service-features-icon">
+                                <i class="fas fa-motorcycle"></i>
+                            </div>
+                            <div class="features__abouts-title-desc">
+                                <h3>Parking</h3>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit dolor magnam quas cumque.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xxl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+                        <div class="our-service-features-abouts">
+                            <div class="service-features-icon">
+                                <i class="fas fa-motorcycle"></i>
+                            </div>
+                            <div class="features__abouts-title-desc">
+                                <h3>Parking</h3>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit dolor magnam quas cumque.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- TESTIMONIALS -->
+<div class="section-testimonials">
+    <div class="container">
+        <div class="row">
+            <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="wraper-title">
+                    <h2 class="wraper__title-heading">
+                        @GetLanguage.Language(lang, "TESTIMONIALS")
+                    </h2>
+                    <div class="divider">
+                        <hr class="horizontal-border-1">
+                        <hr class="horizontal-border-2">
+                        <hr class="horizontal-border-3">
+                    </div>
+                    <p class="wraper-title__text">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti sit dicta quae natus quasi ratione quis id, tenetur atque blanditiis aperiam mollitia enim corporis ex praesentium reprehenderit.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="owl-carousel owl-theme our-gallery-2">
+                    <div class="item">
+                        <div class="item__column">
+                            <a>
+                                <img src="~/Content/assets/images/bg/testimonials_img1.jpg" alt="">
+
+                            </a>
+                            <div class="testimonials__wrap">
+                                <h3 class="testimonials__wrap-title">
+                                    Brad Pitt
+                                </h3>
+                                <p class="testimonials__wrap-desc-1">
+                                    Actor
+                                </p>
+                                <p class="testimonials__wrap-desc-2">
+                                    I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now. When, while the lovely valley teems with vapour around me.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item item-column-2">
+                        <div class="item__column">
+                            <a>
+                                <img src="~/Content/assets/images/bg/testimonials_img2.jpg" alt="">
+
+                            </a>
+                            <div class="testimonials__wrap">
+                                <h3 class="testimonials__wrap-title">
+                                    Brad Pitt
+                                </h3>
+                                <p class="testimonials__wrap-desc-1">
+                                    Actor
+                                </p>
+                                <p class="testimonials__wrap-desc-2">
+                                    I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now. When, while the lovely valley teems with vapour around me.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item item-column-3">
+                        <div class="item__column">
+                            <a>
+                                <img src="~/Content/assets/images/bg/testimonials_img1.jpg" alt="">
+
+                            </a>
+                            <div class="testimonials__wrap">
+                                <h3 class="testimonials__wrap-title">
+                                    Brad Pitt
+                                </h3>
+                                <p class="testimonials__wrap-desc-1">
+                                    Actor
+                                </p>
+                                <p class="testimonials__wrap-desc-2">
+                                    I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now. When, while the lovely valley teems with vapour around me.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item item-column-3">
+                        <div class="item__column">
+                            <a>
+                                <img src="~/Content/assets/images/bg/testimonials_img2.jpg" alt="">
+
+                            </a>
+                            <div class="testimonials__wrap">
+                                <h3 class="testimonials__wrap-title">
+                                    Brad Pitt
+                                </h3>
+                                <p class="testimonials__wrap-desc-1">
+                                    Actor
+                                </p>
+                                <p class="testimonials__wrap-desc-2">
+                                    I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now. When, while the lovely valley teems with vapour around me.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- section-quote -->
+<div class="section-quote">
+    <div class="container">
+        <div class="row">
+            <div class="col-xxl-12">
+                <div class="quote-about">
+                    <i class="fas fa-cloud-sun"></i>
+                    <p class="quote-desc">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.</p>
+                    <h3>
+                        by <span>Thomas Ford</span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        // COUNT TO JS
+        $('.timer').countTo();
+    </script>
+}

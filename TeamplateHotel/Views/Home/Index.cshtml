@@ -1,0 +1,618 @@
+﻿@using ProjectLibrary.Config
+@using TeamplateHotel.Controllers
+@using TeamplateHotel.Handler
+@using TeamplateHotel.Models
+@using ProjectLibrary.Database
+@{
+    ViewBag.HomePage = true;
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    var lang = Request.Cookies["LanguageID"].Value;
+    ShowObject article = CommentController.WellcomeArticle(Request.Cookies["LanguageID"].Value) ?? new ShowObject();
+    List<ShowObject> articleShowHots = CommentController.HotArticles(Request.Cookies["LanguageID"].Value);
+    List<ShowObject> CustomerArticle = CommentController.CustomerArticles(Request.Cookies["LanguageID"].Value);
+    List<ShowObject> roomShowHomes = CommentController.RoomShowHome(Request.Cookies["LanguageID"].Value);
+    List<Advertising> qc = CommentController.GetAdvertisings();
+    Menu menu = ViewBag.Menu ?? new Menu();
+    Hotel hotel = CommentController.DetailHotel(lang);
+    List<Slider> sliders = CommentController.GetListSlider(Request.Cookies["LanguageID"].Value, 0);
+    List<Gallery> galleries = CommentController.lstGallery();
+    List<RoomGallery> roomGalleries = CommentController.RoomGallery();
+    List<Room> lstRoom = CommentController.lstRoom(SystemMenuType.RoomRate, lang);
+    List<ShowObject> articleNews = CommentController.NewArticles(Request.Cookies["LanguageID"].Value);
+    var room = lstRoom.FirstOrDefault();
+}
+
+<!-- section-sunsethotel ================================================== -->
+<div class="section-sunsethotel">
+    <div class="container">
+        <div class="row">
+            <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="slider-content">
+                    <h1>Sunset Hotel</h1>
+                    <p>grand</p>
+                    <div class="divider">
+                        <hr class="horizontal-border-1">
+                        <hr class="horizontal-border-2">
+                        <hr class="horizontal-border-3">
+                    </div>
+                    <p class="text-2">In our hotel you will find everything you need to enjoy your vacation</p>
+                    <button class="infor__button">
+                        <a href="/" class="info__link">Explore it</a>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sunsethotel-bg">
+
+    </div>
+</div>
+
+<!-- section-date-home ================================================== -->
+<div class="section-date-home">
+    <div class="container">
+        <form action="/@room.MenuAlias" method="get" class="form-ckeck">
+            <div class="row">
+                <div class="col-xxl-3 col-lg-3 col-md-3 col-sm-3 col-3">
+                    <div class="form__group">
+                        <div class="form__group-content">
+                            <label for="form__ckecking">@GetLanguage.Language(lang, "CheckIn")</label>
+                            <input type="text" id="check-in" name="check-in" value="" data-language="@lang">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xxl-3 col-lg-3 col-md-3 col-sm-3 col-3">
+                    <div class="form__group">
+                        <div class="form__group-content">
+                            <label for="form__ckecking">@GetLanguage.Language(lang, "CheckOut")</label>
+                            <input type="text" id="check-out" name="check-out" value="" data-language="@lang">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xxl-3 col-lg-3 col-md-3 col-sm-3 col-3">
+                    <div class="form__group">
+                        <div class="form__group-content">
+                            <label for="form__ckecking">@GetLanguage.Language(lang, "Adult")</label>
+                            <select name="adult" id="form__ckecking" class="adult">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                <option value="@i">@i @GetLanguage.Language(lang, "Adult")</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xxl-3 col-lg-3 col-md-3 col-sm-3 col-3">
+                    <div class="form__group">
+                        <div class="form__group-content">
+                            <label for="form__ckecking">@GetLanguage.Language(lang, "Child")</label>
+                            <select name="child" id="form__ckecking" class="child">
+                                @for (int i = 0; i <= 5; i++)
+                                {
+                                    <option value="@i">@i @GetLanguage.Language(lang, "Child")</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="button-group">
+                        <button class="info__button">
+                            <a role="button" class="info__link">
+                                @GetLanguage.Language(lang, "CheckAvailability")
+                            </a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- section-aboutus -->
+<div class="section-aboutus">
+    <div class="container">
+        <div class="row">
+            <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="wraper-title">
+                    <h2 class="wraper__title-heading">
+                        @GetLanguage.Language(lang, "WELCOMETO") <strong>Sunset Hotel</strong>
+                    </h2>
+                    <div class="divider">
+                        <hr class="horizontal-border-1">
+                        <hr class="horizontal-border-2">
+                        <hr class="horizontal-border-3">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fuild">
+        <div class="row">
+            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="aboutus__img">
+                    <img src="~/Content/assets/images/about_img.jpg" alt="">
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="info-abouts-us">
+                    <p class="info__text">@GetLanguage.Language(lang, "AboutUs")</p>
+                    <h3 class="info__title">Probably the best place to enjoy your life</h3>
+                    <p class="info__text-2">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence. When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees, and but a few stray gleams steal into the inner sanctuary.</p>
+                    <h4 class="info__title--2">
+                        The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary.
+                    </h4>
+                    <button class="info__button">
+                        <a href="#" class="info__link">
+                            @GetLanguage.Language(lang, "LEARNMORE")
+                        </a>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- section-OUR BEST ROOMS -->
+<div class="section-best-room">
+    <div class="container">
+        <div class="row">
+            <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="wraper-title">
+                    <h2 class="wraper__title-heading">
+                        <strong>@GetLanguage.Language(lang, "OurBestRoom")</strong>
+                    </h2>
+                    <div class="divider">
+                        <hr class="horizontal-border-1">
+                        <hr class="horizontal-border-2">
+                        <hr class="horizontal-border-3">
+                    </div>
+                    <p class="wraper-title__text">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti sit dicta quae natus quasi ratione quis id, tenetur atque blanditiis.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            @foreach (var item in lstRoom.Where(x => x.Status).OrderByDescending(x => Guid.NewGuid()).Take(4))
+            {
+                <div class="col-xxl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <figure>
+                        <img src="@item.Image" alt="@item.Title">
+                        <figcaption>
+                            <h3>@item.Title</h3>
+                            <div class="price">
+                                @GetLanguage.Language(lang, "money") @(((double)item.Price).ToString("N0")) <small>/ @GetLanguage.Language(lang, "Night")</small>
+                            </div>
+                            <p class="desc">
+                                @Html.Raw(item.Description)
+                            </p>
+                            <button class="book__now">
+                                <a href="/@item.MenuAlias/@item.ID/@item.Alias">Book now</a>
+                                <i class="fas fa-chevron-right"></i>
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </figcaption>
+                    </figure>
+                </div>
+
+            }
+        </div>
+        <div class="row">
+            <div class="col-xs-12 see-all-room">
+                <button class="info__button">
+                    <a href="/@lstRoom.FirstOrDefault().MenuAlias" class="info__link">
+                        @GetLanguage.Language(lang, "SeeAllRoom")
+                    </a>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- section-service -->
+<!-- OUR GALLERY -->
+<div class="our-gallery">
+    <div class="container">
+        <div class="row">
+            <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="wraper-title">
+                    <h2 class="wraper__title-heading">
+                        <strong>@GetLanguage.Language(lang, "OurGallery")</strong>
+                    </h2>
+                    <div class="divider">
+                        <hr class="horizontal-border-1">
+                        <hr class="horizontal-border-2">
+                        <hr class="horizontal-border-3">
+                    </div>
+                    <p class="wraper-title__text">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti sit dicta quae natus quasi ratione quis id, tenetur atque blanditiis aperiam mollitia enim corporis ex praesentium reprehenderit.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fuild gallery-fullwidth">
+        <div class="row">
+            <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <ul class="owl-carousel owl-theme our-gallery-1">
+                    @foreach (var item in galleries)
+                    {
+                        <li class="item">
+                            <a data-lightbox="roadtrip" href="@item.LargeImage">
+
+                                <img src="@item.LargeImage" alt="@item.Title">
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- TESTIMONIALS -->
+<div class="section-testimonials">
+    <div class="container">
+        <div class="row">
+            <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="wraper-title">
+                    <h2 class="wraper__title-heading">
+                        @GetLanguage.Language(lang, "TESTIMONIALS")
+                    </h2>
+                    <div class="divider">
+                        <hr class="horizontal-border-1">
+                        <hr class="horizontal-border-2">
+                        <hr class="horizontal-border-3">
+                    </div>
+                    <p class="wraper-title__text">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti sit dicta quae natus quasi ratione quis id, tenetur atque blanditiis aperiam mollitia enim corporis ex praesentium reprehenderit.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="owl-carousel owl-theme our-gallery-2">
+                    <div class="item">
+                        <div class="item__column">
+                            <a>
+                                <img src="~/Content/assets/images/bg/testimonials_img1.jpg" alt="">
+
+                            </a>
+                            <div class="testimonials__wrap">
+                                <h3 class="testimonials__wrap-title">
+                                    Brad Pitt
+                                </h3>
+                                <p class="testimonials__wrap-desc-1">
+                                    Actor
+                                </p>
+                                <p class="testimonials__wrap-desc-2">
+                                    I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now. When, while the lovely valley teems with vapour around me.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item item-column-2">
+                        <div class="item__column">
+                            <a>
+                                <img src="~/Content/assets/images/bg/testimonials_img2.jpg" alt="">
+
+                            </a>
+                            <div class="testimonials__wrap">
+                                <h3 class="testimonials__wrap-title">
+                                    Brad Pitt
+                                </h3>
+                                <p class="testimonials__wrap-desc-1">
+                                    Actor
+                                </p>
+                                <p class="testimonials__wrap-desc-2">
+                                    I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now. When, while the lovely valley teems with vapour around me.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item item-column-3">
+                        <div class="item__column">
+                            <a>
+                                <img src="~/Content/assets/images/bg/testimonials_img1.jpg" alt="">
+
+                            </a>
+                            <div class="testimonials__wrap">
+                                <h3 class="testimonials__wrap-title">
+                                    Brad Pitt
+                                </h3>
+                                <p class="testimonials__wrap-desc-1">
+                                    Actor
+                                </p>
+                                <p class="testimonials__wrap-desc-2">
+                                    I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now. When, while the lovely valley teems with vapour around me.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item item-column-3">
+                        <div class="item__column">
+                            <a>
+                                <img src="~/Content/assets/images/bg/testimonials_img2.jpg" alt="">
+
+                            </a>
+                            <div class="testimonials__wrap">
+                                <h3 class="testimonials__wrap-title">
+                                    Brad Pitt
+                                </h3>
+                                <p class="testimonials__wrap-desc-1">
+                                    Actor
+                                </p>
+                                <p class="testimonials__wrap-desc-2">
+                                    I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now. When, while the lovely valley teems with vapour around me.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- OUR NEWS -->
+<div class="our-news">
+    <div class="container-fuild">
+        <div class="row">
+            <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="wraper-title">
+                    <h2 class="wraper__title-heading">
+                        <strong>@GetLanguage.Language(lang, "OurNewAndEvent")</strong>
+                    </h2>
+                    <div class="divider">
+                        <hr class="horizontal-border-1">
+                        <hr class="horizontal-border-2">
+                        <hr class="horizontal-border-3">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row our-news-row our-news-row-1">
+            @foreach (var item in articleShowHots.OrderByDescending(x => Guid.NewGuid()).Take(3))
+            {
+                <div class="col-xxl-3 col-lg-4 col-md-6 col-sm-6 col-12 col-our-news">
+                    <!-- Blog-new -->
+                    <div class="blog-news">
+                        <div class="blog__img">
+                            <img src="@item.Image" alt="@item.Title" style="height: 200px;">
+                        </div>
+                        <div class="blog__new-group">
+                            <div class="blog__date-meta">
+                                <div class="blog__number-month">
+                                    <p class="blog__date_number">@item.DateCreated.Value.ToString("dd")</p>
+                                    <p class="blog__date_month">@item.DateCreated.Value.ToString("MMMM")</p>
+                                </div>
+                                <div class="blog__title_author_comment">
+                                    <div class="blog__title">
+                                        <h3 class="title">
+                                            @item.Title
+                                        </h3>
+                                    </div>
+                                    <div class="blog__author_comment">
+                                        <ul>
+                                            <li>
+                                                <i class="fas fa-comment-alt"></i>
+                                                <a href=""> @item.CountComment @GetLanguage.Language(lang, "Comments")</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="blog__text">
+                                <p>@Html.Raw(item.Description)</p>
+                            </div>
+                            <button>
+                                <a href="/@item.MenuAlias/@item.ID/@item.Alias">
+                                    @GetLanguage.Language(lang, "ReadMore") ➔
+                                </a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="col-xxl-3 col-lg-12 col-md-6 col-sm-6 col-12 col-our-news col-our-news-2">
+                <div class="blog-news">
+                    <div class="blog__title-new">
+                        <h3>@GetLanguage.Language(lang, "NEWS")</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- blog-row-2 -->
+        <div class="row our-news-row">
+            <div class="col-xxl-3 col-lg-12 col-md-6 col-sm-6 col-12 col-our-news col-our-news-2">
+                <div class="blog-news">
+                    <div class="blog__title-new blog__title-new-2">
+                        <h3>@GetLanguage.Language(lang, "EVENTS")</h3>
+                    </div>
+                </div>
+            </div>
+            @foreach (var item in articleNews.OrderByDescending(x => Guid.NewGuid()).Take(3))
+            {
+                <div class="col-xxl-3 col-lg-4 col-md-6 col-sm-6 col-12 col-our-news">
+                    <!-- Blog-new -->
+                    <div class="blog-news">
+                        <div class="blog__img">
+                            <img src="@item.Image" alt="@item.Title" style="height: 200px;">
+                        </div>
+                        <div class="blog__new-group">
+                            <div class="blog__date-meta">
+                                <div class="blog__number-month">
+                                    <p class="blog__date_number">@item.DateCreated.Value.ToString("dd")</p>
+                                    <p class="blog__date_month">@item.DateCreated.Value.ToString("MMMM")</p>
+                                </div>
+                                <div class="blog__title_author_comment">
+                                    <div class="blog__title">
+                                        <h3 class="title">
+                                            @item.Title
+                                        </h3>
+                                    </div>
+                                    <div class="blog__author_comment">
+                                        <ul>
+                                            <li>
+                                                <i class="fas fa-comment-alt"></i>
+                                                <a href=""> @item.CountComment @GetLanguage.Language(lang, "Comments")</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="blog__text">
+                                <p>@Html.Raw(item.Description)</p>
+                            </div>
+                            <button>
+                                <a href="/@item.MenuAlias/@item.ID/@item.Alias">
+                                    @GetLanguage.Language(lang, "ReadMore") ➔
+                                </a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- CONTACT US -->
+<div class="contact-home">
+    <div class="container">
+        <div class="row">
+            <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="wraper-title">
+                    <h2 class="wraper__title-heading">
+                        <strong>@GetLanguage.Language(lang, "CONTACTUS") </strong>
+                    </h2>
+                    <div class="divider">
+                        <hr class="horizontal-border-1">
+                        <hr class="horizontal-border-2">
+                        <hr class="horizontal-border-3">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fuild">
+        <div class="row">
+            <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div id="map-container-google-2" class="z-depth-1-half map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d50106.08450315321!2d105.84731526648306!3d21.026402656456472!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ac7c33fd6323%3A0x930d205cf25ff492!2zVHLGsOG7nW5nIMSQ4bqhaSBI4buNYyBZIEjDoCBO4buZaQ!5e0!3m2!1svi!2s!4v1637307676431!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xxl-5 col-lg-5 col-md-5 col-sm-12 col-12">
+                <!-- information-group -->
+                <div class="information-group">
+                    <div class="information__title">
+                        <h3>@GetLanguage.Language(lang, "CONTACTUS")</h3>
+                    </div>
+                    <div class="contact__menu-list">
+                        <ul>
+                            <li>
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div class="contact__menu-content">
+                                    <p class="contact__content-title">@GetLanguage.Language(lang, "Address")</p>
+                                    <p class="contact__content-description">
+                                        @hotel.Address
+                                    </p>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-phone-alt"></i>
+                                <div class="contact__menu-content">
+                                    <p class="contact__content-title">@GetLanguage.Language(lang, "Tel")</p>
+                                    <p class="contact__content-description">
+                                        @hotel.Tel
+                                    </p>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-envelope"></i>
+                                <div class="contact__menu-content">
+                                    <p class="contact__content-title">@GetLanguage.Language(lang, "Email")</p>
+                                    <p class="contact__content-description">
+                                        @hotel.Email
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- end information-group -->
+                <div class="text-contact-us">
+                    <p>@GetLanguage.Language(lang, "IfYouQuestion")</p>
+                </div>
+
+            </div>
+            <div class="col-xxl-7 col-lg-7 col-md-7 col-sm-12 col-12">
+                <div class="contact-form">
+                    <div class="contact-form__title">
+                        <h3>@GetLanguage.Language(lang, "GetInTouch")</h3>
+                    </div>
+                    <form method="post" id="contactform" action="/Contact/SubmitContact">
+                        <input type="text" name="Gender" value="Mr" hidden />
+                        <input type="text" name="Tel" value="" hidden />
+                        <input type="text" name="Country" value="vn" hidden />
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1"></label>
+                            <input type="email" class="form-control" name="Email" id="exampleFormControlInput1" placeholder="@GetLanguage.Language(lang, "EnterEmail")">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1"></label>
+                            <input type="text" class="form-control" name="FullName" id="exampleFormControlInput" placeholder="@GetLanguage.Language(lang, "EnterName")">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1"></label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" name="Request" cols="50" rows="6" placeholder="@GetLanguage.Language(lang, "EnterMessage")"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <small style="color: red;">@GetLanguage.Language(lang, "AllFields")</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary info__button">
+                            <a role="button" class="info__link">@GetLanguage.Language(lang, "SENDMESSAGE")</a>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        getDateCID();
+        getDateCOD();
+        setDate();
+        changeDate();
+
+        $("#contactform").validate({
+            rules: {
+                'FullName': {
+                    required: true,
+                },
+                'Email': {
+                    required: true,
+                    email: true
+                },
+                'Request': {
+                    required: true,
+                }
+            },
+            messages: {
+                'FullName': "Please enter First Name",
+                'Email': "Please enter Email",
+                'Request': "Please enter request",
+            },
+            submitHandler: function (form) {
+                form.submit();
+                window[preloader]();
+            }
+        });
+    </script>
+}

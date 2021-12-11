@@ -1,0 +1,38 @@
+﻿@using ProjectLibrary.Database
+@using TeamplateHotel.Handler
+@using TeamplateHotel.Controllers
+@model IEnumerable<Comment>
+@{
+    var lang = Request.Cookies["LanguageID"].Value;
+
+}
+<ul class="list-review list-comments">
+    @* COMMENT *@
+    @if (Model.Count() > 0)
+    {
+        foreach (var item in Model)
+        {
+            <li>
+                <div class="review__user">
+                    @item.FullName
+                </div>
+                <div class="review__date">
+                    @item.DateCreated.Value.ToString("MMMM d, yyyy 'at' h:mm tt")
+                </div>
+                <div class="review__message">
+                    @item.Comment1
+                </div>
+            </li>
+        }
+    }
+    else
+    {
+        <li>
+            <div class="review__message">
+                @GetLanguage.Language(lang, "NotComment")
+            </div>
+        </li>
+
+    }
+    @* END COMMENT *@
+</ul>

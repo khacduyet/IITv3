@@ -1,0 +1,188 @@
+﻿@using ProjectLibrary.Database
+@using TeamplateHotel.Controllers
+@using TeamplateHotel.Handler
+@using ProjectLibrary.Config
+@model TeamplateHotel.Models.DetailArticle
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    Menu menu = ViewBag.Menu ?? new Menu();
+    Hotel detailHotel = CommentController.DetailHotel(Request.Cookies["LanguageID"].Value);
+    var lang = Request.Cookies["LanguageID"].Value;
+    List<Menu> menuChild = CommentController.getMenuChild(lang, menu.ID);
+    List<Tag> tags = ViewBag.tags;
+    List<Tag> tagsAnother = ViewBag.tagsAnother;
+    IEnumerable<Comment> modelCom = ViewBag.modelCom;
+}
+<!-- section-blog-detail -->
+@Html.Partial("Banner/Banner")
+<div class="section-blog main-room-detail section-blog-detail">
+    <div class="container">
+        <div class="row">
+            <div class="col-xxl-8 col-lg-8 col-md-12 col-sm-12 blog-left" id="lstArt">
+                <div class="blog-main blog-detail-main">
+                    <div class="blog-main__image">
+                        <img src="@Model.Article.Image" alt="@Model.Article.Title">
+                    </div>
+                    <div class="blog-main__content blog-detail__content">
+                        <div class="blog-main__content__category">
+                            @foreach (var serv in menuChild)
+                            {
+                                if (serv.ID == Model.Article.MenuID)
+                                {
+                                    <p>/ @serv.Title /</p>
+                                }
+                            }
+                        </div>
+                        <div class="wraper-title">
+                            <h2 class="wraper__title-heading">
+                                @Model.Article.Title
+                            </h2>
+                            <div class="divider">
+                                <hr class="horizontal-border-1">
+                                <hr class="horizontal-border-2">
+                                <hr class="horizontal-border-3">
+                            </div>
+                            <div class="blog-main__content__date">
+                                <p>@Model.Article.DateCreated.Value.ToString("MMMM d, yyyy")</p>
+                            </div>
+                            <p class="wraper-title__text">
+                                @Html.Raw(Model.Article.Description)
+                            </p>
+                            @Html.Raw(Model.Article.Content)
+                        <ul class="blog-detail__list-tag">
+                            <li>
+                                <a href="" class="tag-link" style="pointer-events: none; cursor: default;">
+                                    @GetLanguage.Language(lang, "TAGS"):
+                                </a>
+                            </li>
+                            @if (tags != null)
+                            {
+                                foreach (var item in tags)
+                                {
+                                    <li>
+                                        <a href="">
+                                            @item.TagName
+                                        </a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                        </div>
+                        <div class="blog-meta">
+                            <div class="blog-meta-author-comments">
+                                <div class="blog-meta__comments">
+                                    <i class="ion-social-twitch-outline" aria-hidden="true"></i>
+                                    <span> @modelCom.Count() @GetLanguage.Language(lang, "Comments")</span>
+                                </div>
+                            </div>
+                            <div class="blog-meta__socical">
+                                <span>@GetLanguage.Language(lang, "Share"):</span>
+                                <ul>
+                                    <li>
+                                        <a href="">
+                                            <i class="ion-social-twitter" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            <i class="ion-social-facebook" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            <i class="ion-social-googleplus" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="main-room-detail__reviews main-blog-detail__comments">
+                    <p class="room__detail-sub-title">
+                        @GetLanguage.Language(lang, "Comments")
+                    </p>
+                    <hr />
+                    <div id="frameComment">
+                        @Html.Partial("PartialView/Comment", modelCom)
+                    </div>
+                    <!-- Room-contact-form  -->
+                    <div class="contact-form">
+                        <div class="contact-form__title">
+                            <p class="room__detail-sub-title">
+                                @GetLanguage.Language(lang, "LeaveComment")
+                            </p>
+                        </div>
+                        <form method="post" id="commentForm">
+                            <input type="hidden" name="BlogId" value="@Model.Article.ID" />
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1">@GetLanguage.Language(lang, "RevName")</label>
+                                <input type="text" class="form-control" name="FullName" id="name" placeholder="@GetLanguage.Language(lang, "EnterRevName")">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1">@GetLanguage.Language(lang, "RevEmail")</label>
+                                <input type="email" class="form-control" name="Email" id="email" placeholder="@GetLanguage.Language(lang, "EnterRevName")">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleFormControlTextarea1">@GetLanguage.Language(lang, "ArtCom")</label>
+                                <textarea class="form-control" id="comment" name="Comment1" cols="50" rows="6" placeholder="@GetLanguage.Language(lang, "ArticleComment")"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <small>@GetLanguage.Language(lang, "AllFields")</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary info__button">
+                                <a role="button" class="info__link">@GetLanguage.Language(lang, "SendCom")</a>
+                            </button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            @Html.Partial("PartialView/RightSideBar", Model.Articles)
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        function callAjax() {
+                var blogId = @Model.Article.ID;
+                var name = $("#name").val();
+                var email = $("#email").val();
+                var request = $("#comment").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/Article/postComment",
+                    data: { FullName: name, Email: email, Comment1: request, BlogId: blogId },
+                    success: function (rs) {
+                        location.reload();
+                    },
+                    error: function (msg) {
+                        console.log(msg.responseText());
+                    }
+                });
+        };
+        $("#commentForm").validate({
+            rules: {
+                'FullName': {
+                    required: true,
+                },
+                'Email': {
+                    required: true,
+                    email: true
+                },
+                'Comment1': {
+                    required: true,
+                }
+            },
+            messages: {
+                'FullName': "Please enter First Name",
+                'Email': "Please enter Email",
+                'Comment1': "Please enter Comment",
+            },
+            submitHandler: function (form) {
+                callAjax();
+            }
+        });
+    </script>
+}

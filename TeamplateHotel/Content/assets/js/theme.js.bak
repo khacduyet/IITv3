@@ -1,0 +1,19 @@
+var preloader = (function() {
+
+	// Variables
+	var $window = $(window);
+	var loader = $("#loader-wrapper");
+
+	// Methods
+	$window.on({
+		'load': function() {
+
+			loader.fadeOut();
+
+		}
+	});
+
+	// Events
+
+})();
+

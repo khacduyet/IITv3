@@ -1,0 +1,35 @@
+﻿@using ProjectLibrary.Database
+@using TeamplateHotel.Controllers
+@using TeamplateHotel.Handler
+@using PagedList.Mvc
+@model  PagedList.IPagedList<Article>
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    var lang = Request.Cookies["LanguageID"].Value;
+    Menu menuHome = ViewBag.MenuHome ?? new Menu();
+    Menu menu = ViewBag.Menu ?? new Menu();
+    List<Menu> menuChild = CommentController.getMenuChild(lang, menu.ID);
+    IEnumerable<Tag> tags = ViewBag.tags;
+    IEnumerable<Article> arts = ViewBag.listArt;
+    IEnumerable<Comment> ACom = ViewBag.ACom;
+}
+
+@* NEW *@
+@Html.Partial("Banner/Banner")
+<div class="section-blog">
+    <div class="container">
+        <div class="row">
+            <div class="col-xxl-8 col-lg-8 col-md-12 col-sm-12 blog-left" id="lstArt">
+                @Html.Partial("PartialView/ListArticles", Model)
+            </div>
+            @Html.Partial("PartialView/RightSideBar", arts)
+        </div>
+        <div class="row">
+            <div class="col-xxl-8 col-lg-8 col-md-12 col-sm-12 col-12">
+                <ul class="pager">
+                    @Html.PagedListPager(Model, page => "/" + menu.Alias + "?page=" + page)
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

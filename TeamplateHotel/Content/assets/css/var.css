@@ -1,0 +1,30 @@
+/*@font-face {
+  font-family: 'Lato';
+  src:url('../fonts/sexy_beachy/Sexy Beachy.otf') format('truetype');
+  font-weight: 500;
+}*/
+@font-face {
+  font-family: 'Montserrat', sans-serif;
+  src: url('../font/Montserrat/Montserrat-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Montserrat', sans-serif;
+  src: url('../font/Montserrat/Montserrat-Medium.ttf') format('truetype');
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Montserrat', sans-serif;
+  src: url('../font/Montserrat/Montserrat-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Montserrat', sans-serif;
+  src: url('../font/Montserrat/Montserrat-BlackItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Playfair_Display', serif;
+  src: url('../font/Playfair_Display/static/PlayfairDisplay-ExtraBold.ttf') format('truetype');
+}
+/* CSS3 PROPERTIES */
+/* Border Radius */

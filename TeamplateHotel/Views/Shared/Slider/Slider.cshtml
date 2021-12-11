@@ -1,0 +1,35 @@
+﻿@using ProjectLibrary.Database
+@using TeamplateHotel.Controllers
+@{
+    Menu menu = ViewBag.Menu ?? new Menu();
+    List<Slider> sliders = CommentController.GetListSlider(Request.Cookies["LanguageID"].Value, menu.ID);
+}
+    <!-- jQuery nivo Slider -->
+<script src="/Content/js/jquery.nivo.slider.pack.js"></script>
+<section id="slider">
+    <div id="slidernivo" class="nivoSlider">
+        @foreach (var item in sliders)
+        {
+            <img src="@item.Image" alt="@item.Title" title="#@item.ID"/>
+        }
+    </div>
+</section>
+<div class="clearfix"></div>
+
+<script type="text/javascript">
+        jQuery(window).load(function () {
+            jQuery('#slidernivo').nivoSlider({
+                directionNav: false,
+                controlNav: true,
+                effect: 'random',
+                slices: 15,
+                boxCols: 8,
+                boxRows: 4,
+                animSpeed: 500,
+                pauseTime: 6000,
+            });
+        });
+</script>
+
+
+

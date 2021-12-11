@@ -1,0 +1,275 @@
+﻿@using TeamplateHotel.Handler
+@using ProjectLibrary.Database
+@using TeamplateHotel.Controllers
+@model TeamplateHotel.Models.DetailRoom
+
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    Menu menu = ViewBag.Menu ?? new Menu();
+    var lang = Request.Cookies["LanguageID"].Value;
+    Hotel detailHotel = CommentController.DetailHotel(Request.Cookies["LanguageID"].Value);
+    IEnumerable<Review> modelRev = ViewBag.modelRev;
+}
+@* NEW  *@
+<!-- section-room-detail -->
+<div class="section-room-detail">
+    <div class="container">
+        <div class="row">
+            <div class="col-xxl-12">
+                <div class="deluxe-double-room">
+                    <h2 class="deluxe__double__room-title">
+                        @Model.Room.Title
+                    </h2>
+                    <div class="divider">
+                        <hr class="horizontal-border-1">
+                        <hr class="horizontal-border-2">
+                        <hr class="horizontal-border-3">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- main-room -->
+<div class="main-room-detail">
+    <div class="container">
+        <div class="row">
+            <div class="col-xxl-8 col-lg-8 col-md-12 col-sm-12 col-12 col-room-detail">
+                <div class="main-room-detail__wrapper">
+                    <!-- room-slider-carousel -->
+                    <div class="room__detail__carousel">
+                        <ul class="owl-carousel owl-theme room-detail-1">
+                            @foreach (var item in Model.RoomGalleries)
+                            {
+                                <li class="item">
+                                    <div class="wrapper">
+                                        <img src="@item.ImageSmall" alt="@Model.Room.Title">
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <!--end-room-slider-carousel -->
+                    <div class="room__detail__title__price">
+                        <h3 class="room__detail-title">@Model.Room.Title</h3>
+                        <p class="room__detail-price">
+                            <span>@GetLanguage.Language(lang, "money") @(((double)Model.Room.Price).ToString("N0"))</span> / @GetLanguage.Language(lang, "Night")
+                        </p>
+                    </div>
+                    <p class="room__detail-sub-title">@GetLanguage.Language(lang, "RoomDesc")</p>
+                    <div class="room__detail-desc">@Html.Raw(Model.Room.Description)</div>
+                    <button class="info__button">
+                        <a href="/Booking/@Model.Room.ID/@Model.Room.Alias" class="info__link">
+                            @GetLanguage.Language(lang, "BookRoom")
+                        </a>
+                    </button>
+                </div>
+                <div class="main-room-detail__reviews">
+                    <p class="room__detail-sub-title">
+                        @GetLanguage.Language(lang, "REVIEWS")
+                    </p>
+                    <hr />
+                    <div id="frameReview">
+                        @Html.Partial("PartialView/Review", modelRev)
+                    </div>
+                    <!-- Room-contact-form  -->
+                    <div class="contact-form">
+                        <div class="contact-form__title">
+                            <p class="room__detail-sub-title">
+                                @GetLanguage.Language(lang, "LeaveReview")
+                            </p>
+                        </div>
+                        <form id="reviewForm" method="post">
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1">@GetLanguage.Language(lang, "RevName")</label>
+                                <input type="text" class="form-control" id="name" name="FullName" placeholder="@GetLanguage.Language(lang, "EnterRevName")">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1">@GetLanguage.Language(lang, "RevEmail")</label>
+                                <input type="email" class="form-control" id="email" name="Email" placeholder="@GetLanguage.Language(lang, "EnterRevEmail")">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleFormControlTextarea1">@GetLanguage.Language(lang, "RevComment")</label>
+                                <textarea class="form-control" id="comment" name="Comment" cols="50" rows="6" placeholder="@GetLanguage.Language(lang, "EnterRevComment")"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <small>@GetLanguage.Language(lang, "AllFields")</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary info__button">
+                                <a role="button" class="info__link">@GetLanguage.Language(lang, "SendComment")</a>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xxl-4 col-lg-4 col-md-12 col-sm-12 col-12">
+                <!-- main-room-features -->
+                <div class="main-room-features">
+                    <p class="room__detail-sub-title">
+                        @GetLanguage.Language(lang, "RoomFeature")
+                    </p>
+                    <ul class="list-features">
+                        <li>
+                            <i class="fas fa-id-badge"></i>
+                            <a href="">@GetLanguage.Language(lang, "DOUBLEKINGBED")</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-mug-hot"></i>
+                            <a href="">@GetLanguage.Language(lang, "BREAKFAST")</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-sun"></i>
+                            <a href="">@GetLanguage.Language(lang, "AIRCONDITIONING")</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-glass-martini-alt"></i>
+                            <a href="">@GetLanguage.Language(lang, "MINIBAR")</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-wifi"></i>
+                            <a href="">Wi-Fi</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-motorcycle"></i>
+                            <a href="">@GetLanguage.Language(lang, "FreeParking")</a>
+                        </li>
+                    </ul>
+                </div>
+                <!--end-main-room-features -->
+                <!-- main-room-similar -->
+                <div class="main-room-similar">
+                    <p class="room__detail-sub-title">
+                        @GetLanguage.Language(lang, "RoomOther")
+                    </p>
+                    <ul>
+                        @foreach (var item in Model.Rooms.OrderByDescending(x => Guid.NewGuid()).Take(3))
+                        {
+                            <li>
+                                <a href="/@item.MenuAlias/@item.ID/@item.Alias">
+                                    <figure>
+                                        <img src="@item.Image" alt="@item.Title">
+                                        <figcaption>
+                                            <h3>@item.Title</h3>
+                                            <div class="item__price">
+                                                @GetLanguage.Language(lang, "money") @(((double)item.Price).ToString("N0")) <small>/ @GetLanguage.Language(lang, "Night")</small>
+                                            </div>
+                                        </figcaption>
+                                    </figure>
+                                </a>
+                            </li>
+                            <hr />
+                        }
+                    </ul>
+                </div>
+                <!--end - main-room-similar -->
+                <div class="main-room-info">
+                    <div class="information-group">
+                        <div class="information__title">
+                            <h3>@GetLanguage.Language(lang, "INFORMATION")</h3>
+                            <p class="info-text">
+                                @GetLanguage.Language(lang, "ForMoreInfo")
+                            </p>
+                        </div>
+                        <div class="contact__menu-list">
+                            <ul>
+                                <li>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="contact__menu-content">
+                                                <p class="contact__content-title">@GetLanguage.Language(lang, "Address")</p>
+                                                <p class="contact__content-description">
+                                                    @detailHotel.Address
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <i class="fas fa-phone-alt"></i>
+
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="contact__menu-content">
+                                                <p class="contact__content-title">@GetLanguage.Language(lang, "Tel")</p>
+                                                <p class="contact__content-description">
+                                                    @detailHotel.Tel
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <i class="fas fa-envelope"></i>
+
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="contact__menu-content">
+                                                <p class="contact__content-title">@GetLanguage.Language(lang, "Email")</p>
+                                                <p class="contact__content-description">
+                                                    @detailHotel.Email
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@* END *@
+
+
+@section scripts{
+    <script>
+        function callAjax() {
+            var blogId = @Model.Room.ID;
+                var name = $("#name").val();
+                var email = $("#email").val();
+                var request = $("#comment").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/Room/postReview",
+                    data: { FullName: name, Email: email, Comment: request, BlogId: blogId },
+                    success: function (rs) {
+                        location.reload();
+                    },
+                    error: function (msg) {
+                        console.log(msg.responseText());
+                    }
+                });
+        };
+        $("#reviewForm").validate({
+            rules: {
+                'FullName': {
+                    required: true,
+                },
+                'Email': {
+                    required: true,
+                    email: true
+                },
+                'Comment': {
+                    required: true,
+                }
+            },
+            messages: {
+                'FullName': "Please enter First Name",
+                'Email': "Please enter Email",
+                'Comment': "Please enter Comment",
+            },
+            submitHandler: function (form) {
+                callAjax();
+            }
+        });
+    </script>
+}

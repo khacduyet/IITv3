@@ -1,0 +1,83 @@
+﻿@using TeamplateHotel.Handler
+
+<div class="wrap-mode-check">
+    <div id="wrap-check-one">
+        <form action="/Booking" id="book-tour" method="GET">
+            <div class="datepickerebe">
+                <div class="datepickerebe-on">
+                    <div class="col-md-2 block-left">
+                        <div class="booking-form-title">@GetLanguage.Language(Request.Cookies["LanguageID"].Value, "BookNow")</div>
+                        <div class="text-light text-white">
+                            @GetLanguage.Language(Request.Cookies["LanguageID"].Value, "BestPriceGuaranted")
+                        </div>
+
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-angle-right fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </div>
+
+
+                    <div class="col-md-2 mg3">
+                        <div class="awe-calendar-wrapper">
+                            <select class="form-control" id="Adult" name="Adult" style="height:40px;">
+                                <option value="">@GetLanguage.Language(Request.Cookies["LanguageID"].Value, "Adult")</option>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-md-2 mg">
+                        <div class="awe-calendar-wrapper">
+                            <input type="text" name="CheckIn" class="awe-calendar datepicker1" placeholder="@GetLanguage.Language(Request.Cookies["LanguageID"].Value, "ArrivalDate")" value="@DateTime.UtcNow.ToString("MM/dd/yyyy")">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-2 ">
+                        <div class="awe-calendar-wrapper">
+                            <input type="text" name="CheckOut" class="awe-calendar datepicker2" placeholder="@GetLanguage.Language(Request.Cookies["LanguageID"].Value, "DepartureDate")" value="@DateTime.UtcNow.AddDays(1).ToString("MM/dd/yyyy")" >
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 mg2">
+                        <div class="awe-calendar-wrapper">
+                            <select class="form-control" id="Child" name="Child" style="height:40px">
+                                <option value="">@GetLanguage.Language(Request.Cookies["LanguageID"].Value, "Child")</option>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="avalability-column col-md-2 ">
+                        <button type="submit">
+                            <span class="big-txt">@GetLanguage.Language(Request.Cookies["LanguageID"].Value, "CheckAvailability")</span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+

@@ -1,0 +1,117 @@
+﻿@using ProjectLibrary.Database
+@using TeamplateHotel.Handler
+@using PagedList.Mvc
+@model PagedList.IPagedList<Room>
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    Menu menuHome = ViewBag.MenuHome ?? new Menu();
+    Menu menu = ViewBag.Menu ?? new Menu();
+    Article article = ViewBag.ArticleByRoomRate;
+    var lang = Request.Cookies["LanguageID"].Value;
+}
+@Html.Partial("Banner/Banner")
+@* NEW ROOM *@
+<div class="section-room-1">
+    <div class="container">
+        @if (Model.Count() > 0)
+        {
+            foreach (var item in Model)
+            {
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                        <div class="rom-1-img">
+                            @foreach (var itemchil in item.roomGalleries.OrderByDescending(x => Guid.NewGuid()).Take(1))
+                            {
+                                <img src="@itemchil.ImageLarge" alt="@item.Title">
+                            }
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                        <div class="room-1-infor">
+                            <div class="room-1-infor__content">
+                                <div class="room-1-infor__item">
+                                    <h3 class="room-1-infor__title">@item.Title</h3>
+
+                                </div>
+                                <div class="room-1-infor__item">
+                                    <div class="item__price">
+                                        <span>@GetLanguage.Language(lang, "money") @(((double)item.Price).ToString("N0"))</span>	 / @GetLanguage.Language(lang, "Night")
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="room-1-infor__desc">
+                                <p>@Html.Raw(item.Description)</p>
+                            </div>
+                            <div class="room-1-infor__list">
+                                <ul class="booking-details-list">
+                                    <li>
+                                        <i class="fas ion-person"></i>
+                                        <label for="">
+
+                                            @GetLanguage.Language(lang, "DOUBLEKINGBED")
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <i class="fas ion-wineglass"></i>
+                                        <label for="">
+                                            @GetLanguage.Language(lang, "MINIBAR")
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <i class="fas ion-coffee"></i>
+                                        <label for="">
+
+                                            @GetLanguage.Language(lang, "BREAKFAST")
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <i class="fas ion-monitor"></i>
+                                        <label for="">
+
+                                            LCD TV
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <i class="fas ion-ios-sunny-outline"></i>
+                                        <label for="">
+
+                                            @GetLanguage.Language(lang, "AIRCONDITIONING")
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <i class="fas ion-wifi"></i>
+                                        <label for="">
+
+                                            Wi-Fi
+                                        </label>
+                                    </li>
+                                    <button class="info__button">
+                                        <a href="/@item.MenuAlias/@item.ID/@item.Alias" class="info__link">
+                                            @GetLanguage.Language(lang, "VIEWDETAILS")
+                                        </a>
+                                    </button>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pager">
+                            @Html.PagedListPager(Model, page => "/" + menu.Alias + "?page=" + page)
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        }
+        else
+        {
+            <h2>Không tìm thấy kết quả!</h2>
+        }
+    </div>
+</div>
+@* END ROOM *@

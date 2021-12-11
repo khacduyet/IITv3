@@ -1,0 +1,65 @@
+﻿@using ProjectLibrary.Database
+@using TeamplateHotel.Handler
+@model IEnumerable<Service>
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    Menu menu = ViewBag.Menu ?? new Menu();
+}
+
+<!--================ End of Header ================-->
+<div data-bg-image-src="images/breadcrumb-bg-2.jpg" class="milenia-breadcrumb milenia-breadcrumb--small text-center milenia-colorizer--scheme-dark milenia-colorizer--parallax">
+    <div class="milenia-colorizer-bg-image" style="background-image: url('../../Content/asset/breadcrumb-bg-2.jpg'); top: -142.797px; background-position: 50% 0px;"></div>
+    <div class="container">
+        <nav class="milenia-breadcrumb-path milenia-colorizer-ln--dark">
+            <span><a href="/">Home</a></span>/<span>@menu.Title</span>
+        </nav>
+    </div>
+</div>
+<!--================ End of Breadcrumb ================-->
+<div class="milenia-content  milenia-has-sidebar">
+    <div class="container">
+        <div class="row">
+            <main class="col">
+                <div class="milenia-entity-content">
+                    <!--================ Content Section ================-->
+                    <div class="milenia-section">
+                        <!--================ Entities (Style 18) ================-->
+                        <div class="milenia-entities milenia-entities--style-18">
+                            <div data-isotope-layout="grid" class="milenia-grid milenia-grid--isotope milenia-grid--cols-2">
+                                <div class="milenia-grid-sizer"></div>
+                                @foreach (var item in Model)
+    {
+                            <div class="milenia-grid-item milenia-category-rooms">
+                                <!--================ Entity ================-->
+                                <article class="milenia-entity milenia-entity--format-image milenia-entity--with-thumb">
+                                    <div class="milenia-entity-media">
+                                    <a href="/@item.MenuAlias/@item.ID/@item.Alias" aria-labelledby="portfolio-heading-0" class="milenia-entity-link milenia-ln--independent">
+                                        <img src="@item.Image" alt=""></a></div>
+                                    <div class="milenia-entity-content milenia-all--stiff milenia-aligner">
+                                        <div class="milenia-aligner-outer">
+                                            <div class="milenia-aligner-inner">
+                                                <header class="milenia-entity-header">
+                                                    <h2 id="portfolio-heading-0" class="milenia-entity-title">
+                                                    <a href="/@item.MenuAlias/@item.ID/@item.Alias" class="milenia-color--unchangeable">@item.Title</a></h2>
+                                                </header>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                                <!--================ End of Entity ================-->
+                            </div>
+}
+                            </div>
+                        </div>
+                        <!--================ End of Entities (Style 18) ================-->
+
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+
+
+
+

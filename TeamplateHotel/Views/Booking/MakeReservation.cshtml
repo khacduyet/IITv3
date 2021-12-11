@@ -1,0 +1,346 @@
+﻿@using ProjectLibrary.Database
+@using TeamplateHotel.Controllers
+@using TeamplateHotel.Handler
+@model ProjectLibrary.Database.Room
+@{
+    ViewBag.Title = "Booking";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    var lang = Request.Cookies["LanguageID"].Value;
+    Hotel hotel = CommentController.DetailHotel(lang);
+    Menu menu = ViewBag.Menu ?? new Menu();
+}
+<link href="~/Plugins/Validate/jquery-validation-1.13.1/jquery-validation.css" rel="stylesheet" />
+<style>
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .btn-primary:disabled {
+        background-color: #c4bcbc;
+        border-color: #deaa86;
+    }
+</style>
+
+
+@* NEW *@
+<div class="main-room-detail reservation-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-xxl-8 col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="main-room-detail__reviews reservation-form">
+                    <p class="room__detail-sub-title">
+                        Booking form
+                    </p>
+                    <ul class="list-review">
+                        <li>
+                            <div class="review__user">
+                                Personal info
+                            </div>
+                            <div class="review__message">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere nulla ea doloremque tenetur quidem odit repellat omnis beatae obcaecati tempora.
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- Form-validate -->
+                    <form id="frmBooking" method="post" action="/Booking/SendBooking">
+                        <input type="hidden" name="InfoBooking" value="@Model.ID" />
+                        <!-- form-date -->
+                        <div class="row">
+                            <div class="form__group col-xxl-6">
+                                <div class="form__group-content">
+                                    <label class="sr-only" for="datepicker">Check in</label>
+                                    <input type="text" id="check-in" readonly class="form-control" name="CheckIn" data-language="@lang" value="" style="background-color: #fff">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form__group col-xxl-6 form__group-date-2">
+                                <div class="form__group-content">
+                                    <label class="sr-only" for="datepicker2">Check out</label>
+                                    <input type="text" readonly id="check-out" class="form-control" name="CheckOut" data-language="@lang" value="" style="background-color: #fff">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--  -->
+                            <div class="form__group col-xxl-6 form__group-select-1">
+                                <div class="form__group-content">
+                                    <label class="sr-only" for="form__ckecking">Adults</label>
+                                    <select name="Adult" class="form__ckecking__adult form__ckecking" id="form__ckecking__adult">
+                                        @for (int i = 1; i <= Model.MaxPeople; i++)
+                                        {
+                                            <option value="@i">@i Adults</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- form-select -->
+                            <div class="form__group col-xxl-6 form__group-select-2">
+                                <div class="form__group-content">
+                                    <label class="sr-only" for="form__ckecking">Children</label>
+                                    <select name="Child" class="form__ckecking__child form__ckecking" id="form__ckecking__child" placeholder="First name">
+                                        @for (int i = 0; i <= Model.MaxPeople; i++)
+                                        {
+                                            <option value="@i">@i Children</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Gender -->
+                            <div class="form-group col-xxl-6 form__group-select-2">
+                                <label class="sr-only" for="inputState">Gender</label>
+                                <select class="form-control" name="Gender">
+                                    <option value="mr">Mr</option>
+                                    <option value="ms">Ms</option>
+                                    <option value="mrs">Mrs</option>
+                                </select>
+                            </div>
+                            <!-- Full name -->
+                            <div class="form-group col-xxl-6">
+                                <label for="last-name" class="sr-only">Full Name</label>
+                                <input type="text" class="form-control" id="name" placeholder="Full name" name="FullName">
+                                <span class="help-block"></span>
+                            </div>
+                            <!-- Email -->
+                            <div class="form-group col-xxl-6">
+                                <label for="email" class="sr-only">Email</label>
+                                <input type="email" class="form-control" id="email" name="Email" placeholder="Email">
+                                <span class="help-block"></span>
+                            </div>
+                            <!-- Phone -->
+                            <div class="form-group col-xxl-6">
+                                <label for="phone" class="sr-only">Phone</label>
+                                <input type="tel" class="form-control" id="phone" name="Phone" placeholder="Phone">
+                                <span class="help-block"></span>
+                            </div>
+                            <!-- Address-1 -->
+                            <div class="form-group col-xxl-6">
+                                <label class="sr-only" for="address-line-1">Address</label>
+                                <input type="text" class="form-control" id="address" placeholder="Address" name="Address">
+                                <span class="help-block"></span>
+                            </div>
+                            <!-- City -->
+                            <div class="form-group col-xxl-6">
+                                <label class="sr-only" for="inputCity">City</label>
+                                <input type="text" class="form-control" id="city" placeholder="City" name="City">
+                            </div>
+                            <!-- Country -->
+                            <div class="form-group col-xxl-6">
+                                <label class="sr-only" for="country">Country</label>
+                                <input type="text" class="form-control" id="country" placeholder="Country" name="Country">
+                            </div>
+                            <!-- Special requirements -->
+                            <div class="form-group col-xxl-12">
+                                <label class="sr-only" for="exampleFormControlTextarea1">Special requirements</label>
+                                <textarea class="form-control" id="requirement" rows="8" name="Request" placeholder="Special requirements"></textarea>
+                            </div>
+                            <!-- I have read and accept <a>the terms and conditions -->
+                            <div class="form-group col-xxl-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="acceptTerm">
+                                    <label class="form-check-label" for="invalidCheck2">
+                                        I have read and accept the terms and conditions.
+                                    </label>
+                                </div>
+                            </div>
+                            <input type="hidden" name="TotalMoney" id="TotalMoney" value="" />
+                            <!-- Submit -->
+                            <button class="btn btn-primary info__button col-xxl-5" id="buttonSubmit" type="submit" disabled>
+                                <a role="button" class="info__link">Book now by email</a>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-xxl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="main-room-similar booking-details-sidebar">
+                    <ul>
+                        <li>
+                            <figure>
+                                <img src="@Model.Image" alt="@Model.Title">
+                                <figcaption>
+                                    <h3>@Model.Title</h3>
+                                    <div class="item__price">
+                                        @GetLanguage.Language(lang, "money") <span id="price">@(((double)Model.Price).ToString("N0"))</span>
+                                    </div>
+                                </figcaption>
+                                <p>@Html.Raw(Model.Description)</p>
+                            </figure>
+                            <ul class="booking-details-list">
+                                <li>
+                                    <label for="">
+                                        Max People
+                                    </label>
+                                    <p>
+                                        @Model.MaxPeople
+                                        <input type="hidden" name="MaxPeople" value="@Model.MaxPeople" id="MaxPeople" />
+                                    </p>
+                                </li>
+                                <li>
+                                    <label for="">
+                                        Size
+                                    </label>
+                                    <p>
+                                        @Model.Size m²
+                                    </p>
+                                </li>
+                                <li>
+                                    <label for="">
+                                        Check in
+                                    </label>
+                                    <p id="cid">
+                                        2017-04-09
+                                    </p>
+                                </li>
+                                <li>
+                                    <label for="">
+                                        Check out
+                                    </label>
+                                    <p id="cod">
+                                        2017-04-18
+                                    </p>
+                                </li>
+                                <li>
+                                    <label for="">
+                                        Adults
+                                    </label>
+                                    <p>
+                                        <span id="adult"></span> Person
+                                    </p>
+                                </li>
+                                <li>
+                                    <label for="">
+                                        Children
+                                    </label>
+                                    <p>
+                                        <span id="child"></span> Child
+                                    </p>
+                                </li>
+                                <li class="total-price">
+                                    <label for="">
+                                        Total price
+                                    </label>
+                                    <p>
+                                        @GetLanguage.Language(lang, "money") <span id="total">515</span>
+                                    </p>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- contact-home -->
+                <div class="contact-home reservation-information">
+                    <div class="information-group">
+                        <div class="information__title">
+                            <h3>INFORMATION</h3>
+                        </div>
+                        <div class="contact__menu-list">
+                            <ul>
+                                <li>
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <div class="contact__menu-content">
+                                        <p class="contact__content-title">Address</p>
+                                        <p class="contact__content-description">
+                                            @hotel.Address
+                                        </p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <i class="fas fa-phone-alt"></i>
+                                    <div class="contact__menu-content">
+                                        <p class="contact__content-title">Phone / Fax</p>
+                                        <p class="contact__content-description">
+                                            @hotel.Tel
+                                        </p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <i class="fas fa-envelope"></i>
+                                    <div class="contact__menu-content">
+                                        <p class="contact__content-title">E-mail</p>
+                                        <p class="contact__content-description">
+                                            @hotel.Email
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* END NEW *@
+
+
+@section scripts{
+    <script src="~/Plugins/Validate/jquery-validation-1.13.1/jquery.validate.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            checkPerson();
+            getDateCID();
+            getDateCOD();
+            setDate();
+            changeDate();
+            checkTerm();
+            calculate();
+            document.getElementById("form__ckecking__adult").addEventListener("change", checkPerson);
+            document.getElementById("form__ckecking__child").addEventListener("change", checkPerson);
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+
+            $("#wraploadding").hide();
+            function LoadingSendEmail() {
+                $("#wraploadding").show();
+                $("#wraploadding").css("width", $(window).width());
+                $("#wraploadding").css("height", $(window).height());
+                $("#imgloadding").css("top", ($(window).height() / 2) - 80);
+            }
+
+            //validate
+            jQuery.validator.setDefaults({
+                debug: true,
+                success: "valid"
+            });
+            $("#frmBooking").validate({
+                rules: {
+                    'Phone': {
+                        required: true,
+                    },
+                    'FullName': {
+                        required: true,
+                    },
+                    'Email': {
+                        required: true,
+                        email: true
+                    },
+                    'Country': {
+                        required: true,
+                    },
+                    'Address': {
+                        required: true,
+                    },
+                    'City': {
+                        required: true,
+                    },
+                },
+                messages: {
+                    'Phone': "Please select Phone",
+                    'Address': "Please select gender",
+                    'FullName': "Please enter Full Name",
+                    'Email': "Please enter email adress",
+                    'Country': "Please select country",
+                    'City': "Please agree team conditions",
+                },
+                submitHandler: function (form) {
+                    form.submit();
+                    LoadingSendEmail();
+                }
+            });
+        });
+    </script>
+}
+
+

@@ -1,0 +1,18 @@
+﻿@using ProjectLibrary.Database
+@using TeamplateHotel.Handler
+@model TeamplateHotel.Models.DetailArticle
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    Menu menu = ViewBag.Menu ?? new Menu();
+}
+
+<div class="container posts" style="margin-top: 50px; margin-bottom: 50px;">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="aic-titel">Messages</h1>
+            <p style="text-align:justify">@Html.Raw(ViewBag.Messages)</p>            
+        </div>
+    </div>
+</div>
+             
+                                               

@@ -1,0 +1,65 @@
+﻿@using ProjectLibrary.Database
+@using PagedList.Mvc
+@model  PagedList.IPagedList<Gallery>
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    Menu menu = ViewBag.Menu ?? new Menu();
+}
+<!--================ Breadcrumb ================-->
+<div data-bg-image-src="images/breadcrumb-bg-1.jpg" class="milenia-breadcrumb text-center milenia-colorizer--scheme-dark milenia-colorizer--bg-image-opacity-60 milenia-colorizer--parallax">
+    <div class="milenia-colorizer-bg-image" style="background-image: url('../../Content/asset/breadcrumb-bg-2.jpg'); top: -142.797px; background-position: 50% 0px;"></div>
+    <div class="container">
+        <h1 class="milenia-page-title">@menu.Title</h1>
+        <nav class="milenia-breadcrumb-path">
+            <span><a href="/">Home</a></span>/<span>@menu.Title</span>
+        </nav>
+    </div>
+</div>
+<!--================ End of Breadcrumb ================-->
+<div class="milenia-content  ">
+    <div class="container">
+        <div class="row">
+            <main class="col">
+                <div class="milenia-entity-content">
+                    <!--================ Content Section ================-->
+                    <div class="milenia-section">
+                        <!--================ Gallery ================-->
+                        <div class="milenia-gallery">
+                            <div data-isotope-layout="grid" class="milenia-grid milenia-grid--isotope milenia-grid--cols-4">
+                                <div class="milenia-grid-sizer"></div>
+                                @foreach (var item in Model)
+                                {
+                                    <div class="milenia-grid-item milenia-category-rooms">
+                                        <!--================ Gallery Item ================-->
+                                        <figure class="milenia-gallery-item milenia-gallery-item--with-thumb">
+                                            <a href="@item.LargeImage" data-fancybox="gallery" data-caption="Nemo Enim Ipsam" class="milenia-ln--independent milenia-gallery-item-link">
+                                                <img src="@item.LargeImage" alt="">
+                                            </a>
+                                            <figcaption class="milenia-gallery-item-caption">@item.Title</figcaption>
+                                        </figure>
+                                        <!--================ End of Gallery Item ================-->
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <!--================ End of Gallery ================-->
+                        <!--================ Pagination ================-->
+                        <footer class="text-center">
+                            <nav>
+                                <ul class="milenia-list--unstyled milenia-pagination milenia-pagination--stretched">
+                                    @Html.PagedListPager(Model, page => "/" + menu.Alias + "?page=" + page)
+                                </ul>
+                            </nav>
+                        </footer>
+                        <!--================ End of Pagination ================-->
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+<style>
+    .pagination li:before {
+        content: "" !important;
+    }
+</style>

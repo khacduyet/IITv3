@@ -1,0 +1,74 @@
+﻿@using ProjectLibrary.Database
+@using TeamplateHotel.Handler
+@model IEnumerable<Room>
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    Menu menu = ViewBag.Menu ?? new Menu();
+    Article article = ViewBag.ArticleByRoomRate;
+}
+
+<div class="milenia-breadcrumb text-center milenia-colorizer--scheme-light main-header-detail ">
+    <div class="container">
+        <h1 class="milenia-page-title">@menu.Title</h1>
+        <nav class="milenia-breadcrumb-path">
+            <span><a href="/">Home</a></span>/<span>@menu.Title</span>
+        </nav>
+    </div>
+</div>
+<!--================ End of Breadcrumb ================-->
+<div class="milenia-content milenia-content--no-py ">
+    <div class="container">
+        <div class="row">
+            <main class="col">
+                <div class="milenia-entity-content">
+                    <!--================ Content Section ================-->
+                    <div class="milenia-section milenia-section--stretched-content-no-px">
+                        <!--================ Entities (Style 16) ================-->
+                        <div class="milenia-entities milenia-entities--style-16">
+                            <div class="milenia-grid milenia-grid--cols-1 milenia-grid--no-gutters">
+                                @foreach (var item in Model)
+                                {
+                                    <div class="milenia-grid-item">
+                                        <!--================ Entity ================-->
+                                        <article class="milenia-entity milenia-entity--format-slideshow">
+                                            <div class="milenia-entity-media">
+                                                <div class="owl-carousel owl-carousel--vadaptive milenia-simple-slideshow">
+                                                    @foreach (var itemchil in item.roomGalleries)
+                                                    {
+                                                        <div data-bg-image-src="@itemchil.ImageLarge" class="milenia-entity-slide">
+                                                        </div>
+                                                    }
+
+                                                </div>
+                                            </div>
+                                            <div class="milenia-entity-content milenia-aligner">
+                                                <div class="milenia-aligner-outer">
+                                                    <div class="milenia-aligner-inner">
+                                                        <header class="milenia-entity-header">
+                                                            <div class="milenia-entity-meta">
+                                                                <div>from  <strong class='milenia-entity-price'>$@item.Price</strong>/night</div>
+                                                            </div>
+                                                            <h2 class="milenia-entity-title"><a href="/@item.MenuAlias/@item.ID/@item.Alias" class="milenia-color--unchangeable">@item.Title</a></h2>
+                                                        </header>
+                                                        <div class="milenia-entity-body">
+                                                            @Html.Raw(item.Description)
+                                                        </div>
+                                                        <footer class="milenia-entity-footer"><a href="/@item.MenuAlias/@item.ID/@item.Alias" class="milenia-btn">Details</a><a href="/booking" class="milenia-btn milenia-btn--scheme-primary">Book Now</a></footer>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </article>
+                                        <!--================ End of Entity ================-->
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <!--================ End of Entities (Style 16) ================-->
+                    </div>
+                    <!--================ End of Content Section ================-->
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+<!--================ Footer ================-->

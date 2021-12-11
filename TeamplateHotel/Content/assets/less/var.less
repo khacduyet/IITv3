@@ -1,0 +1,249 @@
+/*@font-face {
+  font-family: 'Lato';
+  src:url('../fonts/sexy_beachy/Sexy Beachy.otf') format('truetype');
+  font-weight: 500;
+}*/
+@font-face {
+  font-family: 'Montserrat',sans-serif;
+  src:url('../font/Montserrat/Montserrat-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Montserrat',sans-serif;
+  src:url('../font/Montserrat/Montserrat-Medium.ttf') format('truetype');
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Montserrat',sans-serif;
+  src:url('../font/Montserrat/Montserrat-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Montserrat',sans-serif;
+  src:url('../font/Montserrat/Montserrat-BlackItalic.ttf') format('truetype');
+
+}
+@font-face {
+  font-family: 'Playfair_Display',serif;
+  src:url('../font/Playfair_Display/static/PlayfairDisplay-ExtraBold.ttf') format('truetype');
+}
+@bodyfont: "Montserrat",sans-serif;
+@textcolor: #111111;
+@textcolor2: #444444;
+@primarycolor:  #deaa86;
+@primarycolor2: #fdfafa;
+@primarycolor3: #f5f5f5;
+@primarycolor4: #828282;
+@pricecolor: #ff638f;
+@colorIcon : #787878;
+@white : #fff;
+@black : #000;
+@darkcolor: #222;
+@darkcolor2: #333;
+@darkcolor3: #1f1f1f;
+@darkcolor4: #171717;
+@footercolor: #101010;
+
+@bordercolor: #ebebeb;
+@bordercolor2: fade(@black, 15%);
+@bordercolor3: fade(@black, 6%);
+@primaryfont: Prata,Arial,Helvetica,sans-serif;
+/* CSS3 PROPERTIES */
+.box-sizing(@box-sizing) {
+  -webkit-box-sizing: @box-sizing;
+     -moz-box-sizing: @box-sizing;
+      -ms-box-sizing: @box-sizing;
+          box-sizing: @box-sizing;
+}
+/* Border Radius */
+.border-radius(@radius) {
+  -webkit-border-radius: @radius;
+     -moz-border-radius: @radius;
+      -ms-border-radius: @radius;
+          border-radius: @radius;
+}
+.opacity(@opacity) {
+  opacity: @opacity;
+  /* IE8 filter*/
+  @opacity-ie:(@opacity * 100);
+  filter: ~"alpha(opacity=@{opacity-ie})";
+}
+
+.animation(@animation) {
+  -webkit-animation: @animation;
+     -moz-animation: @animation;
+      -ms-animation: @animation;
+       -o-animation: @animation;
+          animation: @animation;
+}
+
+.box-shadow(@shadow) {
+  -webkit-box-shadow: @shadow;
+     -moz-box-shadow: @shadow;
+      -ms-box-shadow: @shadow;
+       -o-box-shadow: @shadow;
+          box-shadow: @shadow;
+}
+
+.transform(@transform) {
+  -webkit-transform: @transform;
+     -moz-transform: @transform;
+      -ms-transform: @transform;
+       -o-transform: @transform;
+          transform: @transform;
+}
+.transition(@transition) {
+  -webkit-transition: @transition;
+     -moz-transition: @transition;
+       -o-transition: @transition;
+          transition: @transition;
+}
+.rotate(@degrees) {
+  -webkit-transform: rotate(@degrees);
+     -moz-transform: rotate(@degrees);
+      -ms-transform: rotate(@degrees);
+       -o-transform: rotate(@degrees);
+          transform: rotate(@degrees);
+}
+.scale(@ratio) {
+  -webkit-transform: scale(@ratio);
+     -moz-transform: scale(@ratio);
+      -ms-transform: scale(@ratio);
+       -o-transform: scale(@ratio);
+          transform: scale(@ratio);
+}
+.translate(@x, @y) {
+  -webkit-transform: translate(@x, @y);
+     -moz-transform: translate(@x, @y);
+      -ms-transform: translate(@x, @y);
+       -o-transform: translate(@x, @y);
+          transform: translate(@x, @y);
+}
+.translate3d(@x, @y, @z) {
+  -webkit-transform: translate3d(@x, @y, @z);
+     -moz-transform: translate3d(@x, @y, @z);
+       -o-transform: translate3d(@x, @y, @z);
+          transform: translate3d(@x, @y, @z);
+}
+.padding(@top, @right, @bottom, @left) {
+  padding: @top @right @bottom @left;
+  .rtl & {
+    padding: @top @left @bottom @right;
+  }
+}
+.padding-left(@value: 10px){
+  padding-left: @value;
+  .rtl &{
+    padding-right: @value;
+    padding-left: 0;
+  }
+}
+.padding-right(@value: 10px){
+  padding-right: @value;
+  .rtl &{
+    padding-left: @value;
+    padding-right: 0;
+  }
+}
+.margin(@top, @right, @bottom, @left) {
+  margin: @top @right @bottom @left;
+  .rtl & {
+    margin: @top @left @bottom @right;
+  }
+}
+.margin-left(@value: 10px){
+  margin-left: @value;
+  .rtl &{
+    margin-right: @value;
+    margin-left: 0;
+  }
+}
+.margin-right(@value: 10px){
+  margin-right: @value;
+  .rtl &{
+    margin-left: @value;
+    margin-right: 0;
+  }
+}
+.text-center() {
+  text-align: center;
+  .rtl &{
+    text-align: center; 
+  }
+}
+
+.right(@value: 10px){
+  right: @value;
+  .rtl &{
+    left: @value;
+    right: auto;
+  }
+  .rtl&{
+    left: @value;
+    right: auto;
+  }
+}
+.left(@value: 10px){
+  left: @value;
+  .rtl &{
+    left: auto;
+    right: @value;
+  }
+  .rtl&{
+    left: auto;
+    right: @value;
+  }
+}
+
+.float-right() {
+  float: right;
+  .rtl &{
+    float: left;
+  }
+  .rtl&{
+    float: left;
+  }
+}
+.float-left() {
+  float: left;
+  .rtl &{
+    float: right;
+  }
+  .rtl&{
+    float: right;
+  }
+ }
+.float-none() {
+  float: none;
+  .rtl &{
+    float: none;
+  }
+  .rtl&{
+    float: none;
+  }
+ }
+ 
+.text-left() {
+  text-align: left;
+  .rtl &{
+    text-align: right; 
+  }
+  .rtl&{
+    text-align: right;
+  }
+}
+.text-right() {
+  text-align: right;
+  .rtl &{
+    text-align: left;
+  }
+  .rtl&{
+    text-align: left;
+  }
+}
+.border-radius-rtl(@1, @2, @3, @4) {
+  border-radius: @1 @2 @3 @4;
+  .rtl & {
+    border-radius: @2 @1 @4 @3;
+  }
+}
